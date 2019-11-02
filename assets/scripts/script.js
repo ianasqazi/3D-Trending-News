@@ -13,5 +13,5 @@ $(document).ready(function(){
 
 function callAPI(){
     $("#comment").remove();
-    $("#main").append("<div id=aFrameBox></div>")
+    $("#main").append("<div id=aFrameBox></div>");
 }
