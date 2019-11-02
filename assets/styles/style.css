@@ -2,6 +2,9 @@
     text-align: center !important;
     background-color: rgba(3, 8, 39, 0.972) !important;
 }
+body{
+    background-image: url("../../image/background.jpg");
+}
 .col-md-12{
     color: blanchedalmond;
 }
