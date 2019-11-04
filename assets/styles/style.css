@@ -5,25 +5,26 @@
 body{
     background-image: url("../../image/background.jpg");
 }
-.col-md-12{
+.col-md-4{
     color: blanchedalmond;
+}
+.nav{
+    width: 200px;
+}
+#about{
+    margin-left: 20px;
 }
 .container{
     height: 200px;
-    padding-top: 95px;
-}
-.btn{
-    width: 250px;
-}
-.btn:hover{
-    box-shadow: 0px 18px 8px -10px rgb(77, 73, 73);
+    padding-top: 150px;
 }
 #comment{
-    width: 500px;
-    border-radius: 25px;
+    width: 695px;
+    border: none;
     height: auto;
     margin: auto;
     margin-top: 20px;
+    background-color: transparent;
 }
 
 .footer {
@@ -41,28 +42,29 @@ body{
     word-wrap: break-word;
  }
  #filtersubmit {
-    position: relative;
-    z-index: 1;
-    left: -25px;
-    top: 1px;
+   
     color: #007bff;
+    background-color: rgb(20, 14, 82) !important;
     cursor:pointer;
-    width: 9px;
-    padding-top: 9px;
-    
+    width: 80px;
+    height: 60px;
+    background-color: white;
+    border: none;
+    border-radius: 0px 15px 15px 0px;
  }
+ 
  .input-group{
     padding-top: 20px;
-    width: 509px;
+    width: 809px;
     margin: auto;
 
    
 }
  #filter{
-     width: 500px;
-     height: 40px;
-     border-radius: 10px;
-     border:solid 1px #ccc; 
+     width: 700px;
+     height: 60px;
+     border:solid 1px #ccc;
+     border-radius: 15px 0px 0px 15px; 
  }
 
 
