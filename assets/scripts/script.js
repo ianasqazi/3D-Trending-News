@@ -13,7 +13,9 @@ $(document).ready(function(){
 
 function callAPI(){
     $("#comment").remove();
+    $(".main").empty();
     $(".main").append("<div id=aFrameBox>aFrame Box goes here</div>");
+    $("#aFrameBox").addClass("container-fluid text-center");
 
 
     // calling NEWS API 
@@ -24,14 +26,27 @@ function callAPI(){
         url: queryNEWSapi,
         method: "GET"
         }).then(function(response) {
+            $(".main").append("<div class=row id=apiblock></div>");
+            $("#apiblock").addClass("container-fluid");
+                
+            //summary sub-block
+            $("#apiblock").append("<div class=col text id=api1Summary><span>API 1 General Summary</span></div>");
+            $("#api1Summary").append("<p>Period: </p>");
+            $("#api1Summary").append("<p>Found: </p>");
+            $("#api1Summary").append("<p>Most Engaged: </p>");
+            $("#api1Summary").append("<p>Most Engaged Platform: </p>");
 
-            for (i=1;i<3;i++){
-                $(".main").append("<div id=api"+i+"block>API"+i+" details go here</div>");
-                $("#api"+i).addClass("row text-center");
+            //Highest Engagement sub-block
+            $("#apiblock").append("<div class=col text id=api1Highest><span>API 1 Highest Engagement Summary</span></div>");
+            $("#api1Highest").append("<p>Lorem Ipsum Sample Text</p>");
 
-            }
-
-            
+            //Highest Engagement sub-block
+            $("#apiblock").append("<div class=col text id=api1Threshold><span>Other Threshold Links</span></div>");
+            $("#api1Threshold").append("<ul id=topLinks></ul>");
+            $("#topLinks").append("<li id=a1L1>Link1</li>");
+            $("#topLinks").append("<li id=a2L2>Link2</li>");
+            $("#topLinks").append("<li id=a3L4>Link3</li>");
+              
         });
     
     ;
