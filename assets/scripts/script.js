@@ -16,6 +16,15 @@ $(document).ready(function(){
 
       });
 
+      $('#searchIcon').on( "mouseenter", function(){
+         $(this).addClass('fa-arrow-right') ,
+         $(this).removeClass('fa-search') 
+       } );
+       $('#searchIcon').on( "mouseleave", function(){
+        $(this).removeClass('fa-arrow-right') ,
+        $(this).addClass('fa-search') 
+      } );
+
     $("#filtersubmit").click(function(){
         // callAPI();
         callGuardian();
