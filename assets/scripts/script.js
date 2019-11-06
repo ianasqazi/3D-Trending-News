@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    $('#filter').keypress(function(event){
+    $('#searchIcon').keypress(function(event){
         if (event.keyCode == 10 || event.keyCode == 13) 
             event.preventDefault();
             callAPI();
