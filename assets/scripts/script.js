@@ -19,7 +19,7 @@ $(document).ready(function(){
 
     $("#filtersubmit").click(function(){
         // callAPI();
-        callGuardian();
+        // callGuardian();
     });
 });
 
