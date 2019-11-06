@@ -83,3 +83,13 @@ body{
 * * * * * * * { background-color: rgba(255,0,0,.2); }
 * * * * * * * * { background-color: rgba(0,255,0,.2); }
 * * * * * * * * * { background-color: rgba(0,0,255,.2); }*/
+
+#aFrameBox{
+  border: 1px solid grey;
+  margin: 10px;
+}
+
+#api1Summary, #api1Highest, #api1Threshold{
+  border: 1px solid red;
+  margin: 5px;
+}
