@@ -1,13 +1,5 @@
 $(document).ready(function(){
-    $('#searchIcon').on( "mouseenter", function(){
-        $(this).addClass('fa-arrow-right') ,
-        $(this).removeClass('fa-search')
-      } );
-      $('#searchIcon').on( "mouseleave", function(){
-       $(this).removeClass('fa-arrow-right') ,
-       $(this).addClass('fa-search')
-     } );
-     
+
     $('#searchIcon').keypress(function(event){
         if (event.keyCode == 10 || event.keyCode == 13) 
             event.preventDefault();
