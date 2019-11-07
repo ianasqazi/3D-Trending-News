@@ -84,8 +84,27 @@ body{
 * * * * * * * * { background-color: rgba(0,255,0,.2); }
 * * * * * * * * * { background-color: rgba(0,0,255,.2); }*/
 
-#aFrameBox, #newsApiLinks, #newsApiSummary{
+#aFrameBox{
+    border: 1px solid blue;
+    margin: 10px;
+}
+
+#apiSummary, #apiDaysCounter, #guardianApiLinks{
   border: 1px solid grey;
   margin: 10px;
 }
 
+#guardianApiBlock{
+    border: 1px solid red;
+  margin: 10px;
+}
+
+#newsApiSummary, #newsApiDaysCounter, #newsApiLinks{
+    border: 1px solid grey;
+    margin: 10px;
+  }
+  
+  #newsApiBlock{
+      border: 1px solid red;
+    margin: 10px;
+  }
