@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
 
- <div  class="container d-flex justify-content-center" style="width: 60%; height: 500px; padding: 20px">
+ <div  id="aFrameBox" class="container d-flex justify-content-center" style="width: 60%; height: 500px; padding: 20px">
                 
         
                 <a-scene embedded="" vr-mode-ui="enabled: false" inspector="" keyboard-shortcuts="" screenshot="">

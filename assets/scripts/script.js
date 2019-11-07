@@ -10,6 +10,8 @@ $(document).ready(function(){
       } );
 
     $("#filtersubmit").click(function(){
+        apiContainer();
+        clearUI();
         aFrameBox();
         callGuardian();
         callNewsApi();
@@ -17,12 +19,22 @@ $(document).ready(function(){
     });
 });
 
-function aFrameBox(){
-    $("#comment").remove();
-    $(".main").append("<div id=aFrameBox>aFrame Box goes here</div>");
-    $("#aFrameBox").addClass("container-fluid text-center");
-    
+                                // ↓ centralizes all APIs in a single DIV, thus keeping the order of things -Rus
+function apiContainer() {
+    $('.main').append("<div id=apiContainer></div>");
+    $("#apiContainer").addClass("container-fluid");
 }
+
+                                // ↓ clears all data when making a new search. Please add new API blocks here.  -Rus
+function clearUI(){
+    $("#comment").remove();
+    $("#aFrameBox").remove();
+    $("#guardianApiBlock").remove();
+    $("#newsApiBlock").remove();
+
+}
+
+// ↓ API calls
 
 function callGuardian(){
 
@@ -38,7 +50,7 @@ function callGuardian(){
 
                         var arrResults=response.response.results;
                         
-                        $(".main").append("<div class=row id=guardianApiBlock></div>");
+                        $("#apiContainer").append("<div class=row id=guardianApiBlock></div>");
                         $("#guardianApiBlock").addClass("container-fluid");
                             
                         //summary sub-block
@@ -130,7 +142,7 @@ function callNewsApi(){
         url: queryNewsApi,
         method: "GET"
         }).then(function(response) {
-            $(".main").append("<div class=row id=newsApiBlock></div>");
+            $("#apiContainer").append("<div class=row id=newsApiBlock></div>");
             $("#newsApiBlock").addClass("container-fluid");
                             
                 //summary sub-block 
@@ -210,5 +222,49 @@ function callNewsApi(){
 
                 
         });
+
+}
+
+
+function aFrameBox(){
+    $(".main").prepend("<div id=aFrameBox></div>");
+    $("#aFrameBox").addClass("container-fluid text-center");
+    $("#aFrameBox").css({"height": "500px", "padding":"20px"});
+    aFrameSceneBuilder()
+
+}
+
+// ↓ base setup of aFrame environment
+
+function aFrameSceneBuilder() {
+     $("#aFrameBox").append("<a-scene id=aFrameScene></<a-scene>");
+     $("#aFrameScene").attr({"embedded": "", "vr-mode-ui": "enabled: false", "inspector": "false", "keyboard-shortcuts":"", "screenshot":""});
+
+     $("#aFrameScene").append("<a-entity camera id=aFrameCamera></a-entity>")
+     $("#aFrameCamera").attr({"camera": "active: true", "fov": "80", "wasd-controls-enabled": "false", "look-controls-enabled": "false", "position": "0 2 0", "look-at-position": "0 0 0", "rotation": "-30 0 0"});
+
+    $('#aFrameScene').append("<a-entity id=aFrameWorld></a-entity>");
+    $('#aFrameWorld').attr({"position": "0 0 -1"});
+
+    $("#aFrameWorld").append("<a-sky></a-sky>");
+    $('a-sky').attr({"opacity": "0.20", "color": "a8a8fa"});
+
+    $("#aFrameWorld").append("<a-circle></a-circle>");
+    $('a-circle').attr(({"opacity": "0.750", "color": "a6aaaa", "position": "-0.25 -0.5 -5.5", "src": "#platform", "radius": "4.5", "rotation": "-90 0 0", "segments": "64"}))
+
+    console.log('scene re-built')
+}
+
+// ↓ transforming API data into objects
+
+function aFrameDataVizualizer(){
+
+    console.log("guardian arr is " + guardianDayCounter);
+    console.log("News  arr is " + newsApiDayCounter);
+
+// notes block
+// cubes should have base hight
+// cubes should have API based color
+// add <a-text value="API NAME" geometry="primitive:plane"></a-text> +position attr next to cubes.
 
 }
