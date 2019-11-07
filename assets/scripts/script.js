@@ -1,5 +1,40 @@
+function aboutTheTeam(){
+    $(".main").hide();
+    $("#apiblock").hide();
+    $("#api1Threshold").hide();
+    $("#topLinks").hide();
+    $("#topLinks").hide();
+    $("#topLinks").hide();
+    $("#filter").hide();
+    $("#filtersubmit").hide();
+    $(".row").show();
+    $("#home").show();
+    $("#about").hide();
+    $(".card-body").show();
+    $(".card").show();
+    $("#teamMembers").show();
+
+
+    
+};
+
 $(document).ready(function(){
 
+    $(".card-body").hide();
+    $("#teamMembers").hide();
+    $(".card").hide();
+    $(".row").hide();
+    $("#home").hide();
+    $('#filter').keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'|| keycode == '10'){
+        event.preventDefault();
+         // callAPI();
+        callGuardian();
+        }
+      });
+
+      
       $('#searchIcon').on( "mouseenter", function(){
          $(this).addClass('fa-arrow-right') ,
          $(this).removeClass('fa-search') 
@@ -9,6 +44,28 @@ $(document).ready(function(){
         $(this).addClass('fa-search') 
       } );
 
+      $("#home").click(function(){
+        apiContainer();
+        clearUI();
+        aFrameBox();
+        callGuardian();
+        callNewsApi();
+        $(".main").show();
+        $("#apiblock").show();
+        $("#api1Threshold").show();
+        $("#topLinks").show();
+        $("#topLinks").show();
+        $("#topLinks").show();
+        $("#filter").show();
+        $("#filtersubmit").show();
+        $(".row").hide();
+        $("#home").hide();
+        $("#about").show();
+        $(".card").hide();
+        $(".card-body").hide();
+        $("#teamMembers").hide();
+
+    });
     $("#filtersubmit").click(function(){
         apiContainer();
         clearUI();
