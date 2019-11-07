@@ -125,7 +125,17 @@ h1{
     margin: 10px;
   }
   
-  #newsApiBlock{
+#newsApiBlock{
+      border: 1px solid red;
+    margin: 10px;
+  }
+
+#civicFeedApiSummary, #civicFeedDaysCounter, #civicFeedLinks{
+    border: 1px solid grey;
+    margin: 10px;
+  }
+  
+#civicFeedBlock{
       border: 1px solid red;
     margin: 10px;
   }
