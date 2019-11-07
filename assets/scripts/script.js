@@ -58,8 +58,8 @@ function callGuardian(){
                         $("#apiSummary").append("<p id=noOfArticles>Found: no of articles </p>");
                         $("#noOfArticles").text("Found "+ response.response.total + " number of articles");
                         // console.log(arrResults[0].webPublicationDate);
-                        console.log(arrResults);
-                        console.log(response);
+                        // console.log(arrResults);
+                        // console.log(response);
                         
 
                         // console.log(moment(arrResults[0].webPublicationDate).format("YYYY-MM-DD"));
@@ -69,8 +69,6 @@ function callGuardian(){
 
 
                             const dayCounter=[0,0,0,0,0,0,0]; // Today, Today-1, Today-3, ... Today-7
-                            var dayCounter2=[];
-                            // console.log(dayCounter);
                                 for(i=0;i<=arrResults.length;i++){
                                     
                                     // Today counter 
@@ -101,11 +99,9 @@ function callGuardian(){
                                     else {
                                         dayCounter[6]+= 1;
                                     }
-                                    // console.log(dayCounter);
+                                    console.log(dayCounter);
 
-                                    dayCounter2=dayCounter;
                                 };
-                                console.log(dayCounter2);
 
                       
 
@@ -171,9 +167,7 @@ function callGuardian(){
 
 }
 
-function convertDate(varDate){
 
-}
 // function callAPI(){
 //     $("#comment").remove();
 //     $(".main").empty();
