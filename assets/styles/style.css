@@ -3,20 +3,39 @@
     background-color: rgba(3, 8, 39, 0.972) !important;
 }
 body{
-    background-image: url("../../image/background.jpg");
-}
-.col-md-4{
-    color: blanchedalmond;
-}
-.nav{
-    width: 200px;
+    background-image: url("../../image/Purplepine.jpg");
 }
 #about{
     margin-left: 20px;
 }
+.text-center{
+    color: pink;
+    padding-top: 40px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+#about{
+    font-size: 15px;
+}
+a{
+    color: thistle;
+    cursor: pointer;
+}
+a:hover{
+    text-decoration: none;
+    transition: color .9s;
+   font-size: 20px;
+   color: rgb(38, 8, 46);
+   
+ 
+}
+
+h1{
+    font-size: 64px ;
+
+}
 .container{
     height: 200px;
-    padding-top: 150px;
+    padding-top: 60px;
 }
 #comment{
     width: 695px;
@@ -25,6 +44,7 @@ body{
     margin: auto;
     margin-top: 20px;
     background-color: transparent;
+    color:  rgb(38, 8, 46);;
 }
 
 .footer {
@@ -66,6 +86,7 @@ body{
      border:solid 1px #ccc;
      border-radius: 15px 0px 0px 15px; 
  }
+ 
 
 
 
@@ -83,3 +104,28 @@ body{
 * * * * * * * { background-color: rgba(255,0,0,.2); }
 * * * * * * * * { background-color: rgba(0,255,0,.2); }
 * * * * * * * * * { background-color: rgba(0,0,255,.2); }*/
+
+#aFrameBox{
+    border: 1px solid blue;
+    margin: 10px;
+}
+
+#apiSummary, #apiDaysCounter, #guardianApiLinks{
+  border: 1px solid grey;
+  margin: 10px;
+}
+
+#guardianApiBlock{
+    border: 1px solid red;
+  margin: 10px;
+}
+
+#newsApiSummary, #newsApiDaysCounter, #newsApiLinks{
+    border: 1px solid grey;
+    margin: 10px;
+  }
+  
+  #newsApiBlock{
+      border: 1px solid red;
+    margin: 10px;
+  }

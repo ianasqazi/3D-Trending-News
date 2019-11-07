@@ -1,8 +1,7 @@
 $(document).ready(function(){
-        
-const sceneGen = document.getElementById('#aFrame').innerHTML( 'potato'
 
-{/* <div  class="container d-flex justify-content-center" style="width: 60%; height: 500px; padding: 20px">
+
+ <div  class="container d-flex justify-content-center" style="width: 60%; height: 500px; padding: 20px">
                 
         
                 <a-scene embedded="" vr-mode-ui="enabled: false" inspector="" keyboard-shortcuts="" screenshot="">
@@ -74,8 +73,7 @@ const sceneGen = document.getElementById('#aFrame').innerHTML( 'potato'
             
                 </a-scene>
     
-</div>  */}
+</div> 
 
-        );
 element.appendChild(sceneGen);
 });
