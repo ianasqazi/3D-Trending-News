@@ -36,28 +36,39 @@ $(document).ready(function(){
       } );
 
     $("#filtersubmit").click(function(){
-        // callAPI();
+        apiContainer();
+        clearUI();
+        aFrameBox();
         callGuardian();
+        callNewsApi();
+
     });
 });
 
-function callGuardian(){
+                                // ↓ centralizes all APIs in a single DIV, thus keeping the order of things -Rus
+function apiContainer() {
+    $('.main').append("<div id=apiContainer></div>");
+    $("#apiContainer").addClass("container-fluid");
+}
+
+                                // ↓ clears all data when making a new search. Please add new API blocks here.  -Rus
+function clearUI(){
     $("#comment").remove();
-        $(".main").empty();
-        $(".main").append("<div id=aFrameBox>aFrame Box goes here</div>");
-        $("#aFrameBox").addClass("container-fluid text-center");
+    $("#aFrameBox").remove();
+    $("#guardianApiBlock").remove();
+    $("#newsApiBlock").remove();
 
-        // var currentTime=(moment().format("YYYY-MM-DD"));
-        // console.log(currentTime);
-        
+}
+
+// ↓ API calls
+
+function callGuardian(){
+
         var fromDate = moment().subtract(6, "days").format("YYYY-MM-DD");
-        // console.log("FromDate : " +fromDate);
-
         var query=$.trim($("#filter").val());
-
         var queryGuardian = "https://content.guardianapis.com/search?q="+query+"&api-key=a0f5a380-0a1a-427b-9d99-14fa9b5750c4&order-by=newest&page-size=200&from-date="+ fromDate;
-
-        //call the Guardian Api 
+        
+        //call the Guardian Search API 
         $.ajax({
                     url: queryGuardian,
                     method: "GET"
@@ -65,166 +76,221 @@ function callGuardian(){
 
                         var arrResults=response.response.results;
                         
-                        $(".main").append("<div class=row id=apiblock></div>");
-                        $("#apiblock").addClass("container-fluid");
+                        $("#apiContainer").append("<div class=row id=guardianApiBlock></div>");
+                        $("#guardianApiBlock").addClass("container-fluid");
                             
                         //summary sub-block
-                        $("#apiblock").append("<div class=col id=apiSummary><span>Guardian General Summary</span></div>");
+                        $("#guardianApiBlock").append("<div class=col-3 id=apiSummary><h5>Guardian General Summary</h5></div>");
+                        $("#apiSummary").append("<hr>");
+
                         $("#apiSummary").append("<p id=datePeriod></p>");
 
                         $("#datePeriod").text("Date Range : " + moment(arrResults[0].webPublicationDate).format("YYYY-MM-DD") + " to " +moment(arrResults[arrResults.length-1].webPublicationDate).format("YYYY-MM-DD"));
-                        $("#apiSummary").append("<p id=noOfArticles>Found: no of articles </p>");
+                        $("#apiSummary").append("<p id=noOfArticles></p>");
                         $("#noOfArticles").text("Found "+ response.response.total + " number of articles");
-                        // console.log(arrResults[0].webPublicationDate);
-                        // console.log(arrResults);
-                        // console.log(response);
                         
+                        // Day Division sub-block
 
-                        // console.log(moment(arrResults[0].webPublicationDate).format("YYYY-MM-DD"));
-                        
-
-                        
-
-
-                            const dayCounter=[0,0,0,0,0,0,0]; // Today, Today-1, Today-3, ... Today-7
-                                for(i=0;i<=arrResults.length;i++){
-                                    
+                        var guardianDayCounter=[0,0,0,0,0,0,0]; // Today, Today-1, Today-3, ... Today-7
+                            for(i=0;i<arrResults.length;i++){
                                     // Today counter 
                                     if(moment(arrResults[i].webPublicationDate).format("YYYY-MM-DD")==moment().format("YYYY-MM-DD")){
-                                        dayCounter[0]+= 1;
-                                    }
+                                        guardianDayCounter[0]+= 1;}
                                     // Today -1 counter 
                                     else if (moment(arrResults[i].webPublicationDate).format("YYYY-MM-DD")==moment().subtract(1, "days").format("YYYY-MM-DD")){
-                                        dayCounter[1]+= 1;
-                                    }
+                                        guardianDayCounter[1]+= 1;}
                                     // Today -2 counter
                                     else if (moment(arrResults[i].webPublicationDate).format("YYYY-MM-DD")==moment().subtract(2, "days").format("YYYY-MM-DD")){
-                                        dayCounter[2]+= 1;
-                                    }
+                                        guardianDayCounter[2]+= 1;}
                                     // Today -3 counter 
                                     else if (moment(arrResults[i].webPublicationDate).format("YYYY-MM-DD")==moment().subtract(3, "days").format("YYYY-MM-DD")){
-                                        dayCounter[3]+= 1;
-                                    }
+                                        guardianDayCounter[3]+= 1;}
                                     // Today -4 counter 
                                     else if (moment(arrResults[i].webPublicationDate).format("YYYY-MM-DD")==moment().subtract(4, "days").format("YYYY-MM-DD")){
-                                        dayCounter[4]+= 1;
-                                    }
+                                        guardianDayCounter[4]+= 1;}
                                     // Today -5 counter 
                                     else if (moment(arrResults[i].webPublicationDate).format("YYYY-MM-DD")==moment().subtract(5, "days").format("YYYY-MM-DD")){
-                                        dayCounter[5]+= 1;
-                                    }
+                                        guardianDayCounter[5]+= 1;}
                                     // Today -6 counter 
                                     else {
-                                        dayCounter[6]+= 1;
-                                    }
-                                    console.log(dayCounter);
+                                        guardianDayCounter[6]+= 1;}
+                            };
+                        console.log("Guardian Day counter array is = " + guardianDayCounter);
 
-                                };
+                        $("#guardianApiBlock").append("<div class=col-3 id=apiDaysCounter><h5>Guardian Per Day Post Summary</h5></div>");
+                        $("#apiDaysCounter").append("<hr>");
 
-                      
+                        for (i=1; i<=7 ;i++){
+                            $("#apiDaysCounter").append("<p id=dateCount"+i+"></p>");    
+                        }
 
-                            // var dayCounter=[0,0,0,0,0,0,0]; // Today, Today-1, Today-3, ... Today-7
-                            // console.log(dayCounter);
-                            //     for(i=0;i<=arrResults.length;i++){
-                                    
-                            //         // Today counter 
-                            //         if(moment(arrResults[i].webPublicationDate).format("YYYY-MM-DD")==moment().format("YYYY-MM-DD")){
-                            //             dayCounter[0]+= 1;
-                            //             return dayCounter[0];
-                            //         }
-                            //         // Today -1 counter 
-                            //         else if (moment(arrResults[i].webPublicationDate).format("YYYY-MM-DD")==moment().subtract(1, "days").format("YYYY-MM-DD")){
-                            //             dayCounter[1]+= 1;
-                            //         }
-                            //         // Today -2 counter
-                            //         else if (moment(arrResults[i].webPublicationDate).format("YYYY-MM-DD")==moment().subtract(2, "days").format("YYYY-MM-DD")){
-                            //             dayCounter[2]+= 1;
-                            //         }
-                            //         // Today -3 counter 
-                            //         else if (moment(arrResults[i].webPublicationDate).format("YYYY-MM-DD")==moment().subtract(3, "days").format("YYYY-MM-DD")){
-                            //             dayCounter[3]+= 1;
-                            //         }
-                            //         // Today -4 counter 
-                            //         else if (moment(arrResults[i].webPublicationDate).format("YYYY-MM-DD")==moment().subtract(4, "days").format("YYYY-MM-DD")){
-                            //             dayCounter[4]+= 1;
-                            //         }
-                            //         // Today -5 counter 
-                            //         else if (moment(arrResults[i].webPublicationDate).format("YYYY-MM-DD")==moment().subtract(5, "days").format("YYYY-MM-DD")){
-                            //             dayCounter[5]+= 1;
-                            //         }
-                            //         // Today -6 counter 
-                            //         else {
-                            //             dayCounter[6]+= 1;
-                            //         }
-                            //         // console.log(dayCounter);
-                            //     };
+                        $("#dateCount1").text(moment().format("YYYY-MM-DD") + " : " + guardianDayCounter[0]);
+                        $("#dateCount2").text(moment().subtract(1, "days").format("YYYY-MM-DD") + " : " + guardianDayCounter[1]);
+                        $("#dateCount3").text(moment().subtract(2, "days").format("YYYY-MM-DD") + " : " + guardianDayCounter[2]);
+                        $("#dateCount4").text(moment().subtract(3, "days").format("YYYY-MM-DD") + " : " + guardianDayCounter[3]);
+                        $("#dateCount5").text(moment().subtract(4, "days").format("YYYY-MM-DD") + " : " + guardianDayCounter[4]);
+                        $("#dateCount6").text(moment().subtract(5, "days").format("YYYY-MM-DD") + " : " + guardianDayCounter[5]);
+                        $("#dateCount7").text(moment().subtract(6, "days").format("YYYY-MM-DD") + " : " + guardianDayCounter[6]);
 
+                        // Preview Link sub-block
 
+                        $("#guardianApiBlock").append("<div class=col-5 id=guardianApiLinks><H5>Links from Guardian API</H5></div>");
+                        $("#guardianApiLinks").append("<hr>");
+                        for (i=1; i<=5 ;i++){
+                            $("#guardianApiLinks").append("<div><p id=guardianApiTitle"+i+"></p><a id=guardianApiURL"+i+" target=_blank> URL </a></div>");
+                        }
 
-                        // Highest Engagement sub-block
-                        // $("#apiblock").append("<div class=col id=apiDaysCounter><span>Guardian Per Day Post Summary</span></div>");
-                        // $("#apiDaysCounter").append("<p id=Today> Today</p>");
-                        // // $("#array").text("Today : " +dayCounter[0]);
-                        // $("#array").text("Today : " +x);
-                        // for(i=1; i<=7; i++){
-                        //     $("#apiDaysCounter").append("<p ></p>").text(dayCounter[0]);
+                        $("#guardianApiTitle1").text(arrResults[0].webTitle);
+                        $("#guardianApiURL1").attr("href",arrResults[0].webUrl);
+                        $("#guardianApiTitle2").text(arrResults[1].webTitle);
+                        $("#guardianApiURL2").attr("href",arrResults[1].webUrl);
+                        $("#guardianApiTitle3").text(arrResults[2].webTitle);
+                        $("#guardianApiURL3").attr("href",arrResults[2].webUrl);
+                        $("#guardianApiTitle4").text(arrResults[3].webTitle);
+                        $("#guardianApiURL4").attr("href",arrResults[3].webUrl);
+                        $("#guardianApiTitle5").text(arrResults[4].webTitle);
+                        $("#guardianApiURL5").attr("href",arrResults[4].webUrl);
 
-                        // }
-
-
-
-                        //Links to latest articles
-                        $("#apiblock").append("<div class=col id=api1Threshold><span>Other Threshold Links</span></div>");
-                        $("#api1Threshold").append("<ul id=topLinks></ul>");
-                        $("#topLinks").append("<li id=a1L1>Link1</li>");
-                        $("#topLinks").append("<li id=a2L2>Link2</li>");
-                        $("#topLinks").append("<li id=a3L4>Link3</li>");
                     });
-
-    
 
 }
 
 
-// function callAPI(){
-//     $("#comment").remove();
-//     $(".main").empty();
-//     $(".main").append("<div id=aFrameBox>aFrame Box goes here</div>");
-//     $("#aFrameBox").addClass("container-fluid text-center");
+function callNewsApi(){
+
+    var query=$.trim($("#filter").val());
+    var fromDate = moment().subtract(6, "days").format("YYYY-MM-DD");
+
+    var queryNewsApi="https://newsapi.org/v2/everything?apiKey=ed9bdb8084cb45b3bc6a7ead43be2e8d&pagesize=100&sortby=popularity&language=en&from="+ fromDate + "&q=" + query;
+
+    //calling News API 
+    $.ajax({
+        url: queryNewsApi,
+        method: "GET"
+        }).then(function(response) {
+            $("#apiContainer").append("<div class=row id=newsApiBlock></div>");
+            $("#newsApiBlock").addClass("container-fluid");
+                            
+                //summary sub-block 
+
+                $("#newsApiBlock").append("<div class=col-3 id=newsApiSummary><h5>Summary from News API</h5></div>");
+                $("#newsApiSummary").append("<hr>");
+
+                $("#newsApiSummary").append("<p id=newsApiDateRange></p>");
+                $("#newsApiDateRange").text("Date Range : " + moment(response.articles[0].publishedAt).format("YYYY-MM-DD") + " to " +moment(response.articles[response.articles.length-1].publishedAt).format("YYYY-MM-DD"));
+
+                $("#newsApiSummary").append("<p id=noOfArticlesAPI></p>");
+                $("#noOfArticlesAPI").text("Found "+ response.totalResults + " number of articles"); 
+
+                // Day Division sub-block
+
+                var newsApiDayCounter=[0,0,0,0,0,0,0]; // Today, Today-1, Today-3, ... Today-7
+                for(i=0;i<response.articles.length;i++){
+                        // Today counter 
+                        if(moment(response.articles[i].publishedAt).format("YYYY-MM-DD")==moment().format("YYYY-MM-DD")){
+                            newsApiDayCounter[0]+= 1;}
+                        // Today -1 counter 
+                        else if (moment(response.articles[i].publishedAt).format("YYYY-MM-DD")==moment().subtract(1, "days").format("YYYY-MM-DD")){
+                            newsApiDayCounter[1]+= 1;}
+                        // Today -2 counter
+                        else if (moment(response.articles[i].publishedAt).format("YYYY-MM-DD")==moment().subtract(2, "days").format("YYYY-MM-DD")){
+                            newsApiDayCounter[2]+= 1;}
+                        // Today -3 counter 
+                        else if (moment(response.articles[i].publishedAt).format("YYYY-MM-DD")==moment().subtract(3, "days").format("YYYY-MM-DD")){
+                            newsApiDayCounter[3]+= 1;}
+                        // Today -4 counter 
+                        else if (moment(response.articles[i].publishedAt).format("YYYY-MM-DD")==moment().subtract(4, "days").format("YYYY-MM-DD")){
+                            newsApiDayCounter[4]+= 1;}
+                        // Today -5 counter 
+                        else if (moment(response.articles[i].publishedAt).format("YYYY-MM-DD")==moment().subtract(5, "days").format("YYYY-MM-DD")){
+                            newsApiDayCounter[5]+= 1;}
+                        // Today -6 counter 
+                        else {
+                            newsApiDayCounter[6]+= 1;}
+                };
+                console.log("News API Day counter is : " + newsApiDayCounter);
 
 
-//     // calling NEWS API 
-//     var query = $.trim($("#filter").val());
+                $("#newsApiBlock").append("<div class=col-3 id=newsApiDaysCounter><h5>News API Per Day Post Summary</h5></div>");
+                        $("#newsApiDaysCounter").append("<hr>");
 
-//     var queryNEWSapi="https://newsapi.org/v2/top-headlines?q="+query+"&apiKey=ed9bdb8084cb45b3bc6a7ead43be2e8d";
-//     $.ajax({
-//         url: queryNEWSapi,
-//         method: "GET"
-//         }).then(function(response) {
-//             $(".main").append("<div class=row id=apiblock></div>");
-//             $("#apiblock").addClass("container-fluid");
+                        for (i=1; i<=7 ;i++){
+                            $("#newsApiDaysCounter").append("<p id=newsApiDateCount"+i+"></p>");    
+                        }
+
+                        $("#newsApiDateCount1").text(moment().format("YYYY-MM-DD") + " : " + newsApiDayCounter[0]);
+                        $("#newsApiDateCount2").text(moment().subtract(1, "days").format("YYYY-MM-DD") + " : " + newsApiDayCounter[1]);
+                        $("#newsApiDateCount3").text(moment().subtract(2, "days").format("YYYY-MM-DD") + " : " + newsApiDayCounter[2]);
+                        $("#newsApiDateCount4").text(moment().subtract(3, "days").format("YYYY-MM-DD") + " : " + newsApiDayCounter[3]);
+                        $("#newsApiDateCount5").text(moment().subtract(4, "days").format("YYYY-MM-DD") + " : " + newsApiDayCounter[4]);
+                        $("#newsApiDateCount6").text(moment().subtract(5, "days").format("YYYY-MM-DD") + " : " + newsApiDayCounter[5]);
+                        $("#newsApiDateCount7").text(moment().subtract(6, "days").format("YYYY-MM-DD") + " : " + newsApiDayCounter[6]);
+
+
+                // Preview Links sub-block
+                $("#newsApiBlock").append("<div class=col id=newsApiLinks><H5>Links from News API</H5></div>");
+                $("#newsApiLinks").append("<hr>");
+                    for (i=1; i<=5;i++){
+                        $("#newsApiLinks").append("<div><p id=newsApiTitle"+i+"></p><a id=newsApiURL"+i+" target=_blank> URL </a></div>");
+                    }
+
+                    $("#newsApiTitle1").text(response.articles[0].title);
+                    $("#newsApiURL1").attr("href",response.articles[0].url);
+                    $("#newsApiTitle2").text(response.articles[1].title);
+                    $("#newsApiURL2").attr("href",response.articles[1].url);
+                    $("#newsApiTitle3").text(response.articles[2].title);
+                    $("#newsApiURL3").attr("href",response.articles[2].url);
+                    $("#newsApiTitle4").text(response.articles[3].title);
+                    $("#newsApiURL4").attr("href",response.articles[3].url);
+                    $("#newsApiTitle5").text(response.articles[4].title);
+                    $("#newsApiURL5").attr("href",response.articles[4].url);
+                    
+
                 
-//             //summary sub-block
-//             $("#apiblock").append("<div class=col text id=api1Summary><span>API 1 General Summary</span></div>");
-//             $("#api1Summary").append("<p>Period: </p>");
-//             $("#api1Summary").append("<p>Found: </p>");
-//             $("#api1Summary").append("<p>Most Engaged: </p>");
-//             $("#api1Summary").append("<p>Most Engaged Platform: </p>");
+        });
 
-//             //Highest Engagement sub-block
-//             $("#apiblock").append("<div class=col text id=api1Highest><span>API 1 Highest Engagement Summary</span></div>");
-//             $("#api1Highest").append("<p>Lorem Ipsum Sample Text</p>");
+}
 
-//             //Highest Engagement sub-block
-//             $("#apiblock").append("<div class=col text id=api1Threshold><span>Other Threshold Links</span></div>");
-//             $("#api1Threshold").append("<ul id=topLinks></ul>");
-//             $("#topLinks").append("<li id=a1L1>Link1</li>");
-//             $("#topLinks").append("<li id=a2L2>Link2</li>");
-//             $("#topLinks").append("<li id=a3L4>Link3</li>");
-              
-//         });
-    
-//     ;
 
-// }
+function aFrameBox(){
+    $(".main").prepend("<div id=aFrameBox></div>");
+    $("#aFrameBox").addClass("container-fluid text-center");
+    $("#aFrameBox").css({"height": "500px", "padding":"20px"});
+    aFrameSceneBuilder()
 
+}
+
+// ↓ base setup of aFrame environment
+
+function aFrameSceneBuilder() {
+     $("#aFrameBox").append("<a-scene id=aFrameScene></<a-scene>");
+     $("#aFrameScene").attr({"embedded": "", "vr-mode-ui": "enabled: false", "inspector": "false", "keyboard-shortcuts":"", "screenshot":""});
+
+     $("#aFrameScene").append("<a-entity camera id=aFrameCamera></a-entity>")
+     $("#aFrameCamera").attr({"camera": "active: true", "fov": "80", "wasd-controls-enabled": "false", "look-controls-enabled": "false", "position": "0 2 0", "look-at-position": "0 0 0", "rotation": "-30 0 0"});
+
+    $('#aFrameScene').append("<a-entity id=aFrameWorld></a-entity>");
+    $('#aFrameWorld').attr({"position": "0 0 -1"});
+
+    $("#aFrameWorld").append("<a-sky></a-sky>");
+    $('a-sky').attr({"opacity": "0.20", "color": "a8a8fa"});
+
+    $("#aFrameWorld").append("<a-circle></a-circle>");
+    $('a-circle').attr(({"opacity": "0.750", "color": "a6aaaa", "position": "-0.25 -0.5 -5.5", "src": "#platform", "radius": "4.5", "rotation": "-90 0 0", "segments": "64"}))
+
+    console.log('scene re-built')
+}
+
+// ↓ transforming API data into objects
+
+function aFrameDataVizualizer(){
+
+    console.log("guardian arr is " + guardianDayCounter);
+    console.log("News  arr is " + newsApiDayCounter);
+
+// notes block
+// cubes should have base hight
+// cubes should have API based color
+// add <a-text value="API NAME" geometry="primitive:plane"></a-text> +position attr next to cubes.
+
+}
