@@ -1,13 +1,15 @@
 $(document).ready(function(){
 
-    $('#searchIcon').keypress(function(event){
-        if (event.keyCode == 10 || event.keyCode == 13) 
-            event.preventDefault();
-            // callAPI();
-            callGuardian();
-
+    $('#filter').keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'|| keycode == '10'){
+        event.preventDefault();
+         // callAPI();
+        callGuardian();
+        }
       });
 
+      
       $('#searchIcon').on( "mouseenter", function(){
          $(this).addClass('fa-arrow-right') ,
          $(this).removeClass('fa-search') 
