@@ -15,6 +15,7 @@ $(document).ready(function(){
         aFrameBox();
         callGuardian();
         callNewsApi();
+        callCivicFeedApi();
 
     });
 });
@@ -218,6 +219,208 @@ function callNewsApi(){
                     $("#newsApiURL4").attr("href",response.articles[3].url);
                     $("#newsApiTitle5").text(response.articles[4].title);
                     $("#newsApiURL5").attr("href",response.articles[4].url);
+                    
+
+                
+        });
+
+}
+
+function callCivicFeedApi(){
+
+    var query=$.trim($("#filter").val());
+    var fromDate = moment().subtract(6, "days").format("YYYY-MM-DD");
+
+    var queryCivicFeedApi = "https://api-beta.civicfeed.com/news/search?q="+ query + "&results=30&from-date=" + fromDate;
+    
+    //calling Civic Feed API
+
+
+    $.ajax({
+        url: queryCivicFeedApi,
+        method: "GET",
+        headers: {
+            "X-API-KEY": "nP9mFMWdc75xO3rYFImxQ7XZATBzmWwWaWXPrkqd",
+        }
+        }).then(function(response) {
+            // console.log(response); // getting response 
+            $("#apiContainer").append("<div class=row id=civicFeedBlock></div>");
+            $("#civicFeedBlock").addClass("container-fluid");
+                            
+                //summary sub-block 
+
+                $("#civicFeedBlock").append("<div class=col-3 id=civicFeedApiSummary><h5>Summary from Civic Feed API</h5></div>");
+                $("#civicFeedApiSummary").append("<hr>");
+
+                $("#civicFeedApiSummary").append("<p id=civicFeedDateRange></p>");
+                $("#civicFeedDateRange").text("Date Range : " + moment(response.articles[0].created).format("YYYY-MM-DD") + " to " +moment(response.articles[response.articles.length-1].created).format("YYYY-MM-DD"));
+
+                $("#civicFeedApiSummary").append("<p id=noOfArticlesAPI></p>");
+                $("#noOfArticlesAPI").text("Found "+ response.results + " number of articles"); 
+
+                // Day Division sub-block
+
+                var civicFeedDayCounter=[0,0,0,0,0,0,0]; // Today, Today-1, Today-3, ... Today-7
+                for(i=0;i<response.articles.length;i++){
+                        // Today counter 
+                        if(moment(response.articles[i].created).format("YYYY-MM-DD")==moment().format("YYYY-MM-DD")){
+                            civicFeedDayCounter[0]+= 1;}
+                        // Today -1 counter 
+                        else if (moment(response.articles[i].created).format("YYYY-MM-DD")==moment().subtract(1, "days").format("YYYY-MM-DD")){
+                            civicFeedDayCounter[1]+= 1;}
+                        // Today -2 counter
+                        else if (moment(response.articles[i].created).format("YYYY-MM-DD")==moment().subtract(2, "days").format("YYYY-MM-DD")){
+                            civicFeedDayCounter[2]+= 1;}
+                        // Today -3 counter 
+                        else if (moment(response.articles[i].created).format("YYYY-MM-DD")==moment().subtract(3, "days").format("YYYY-MM-DD")){
+                            civicFeedDayCounter[3]+= 1;}
+                        // Today -4 counter 
+                        else if (moment(response.articles[i].created).format("YYYY-MM-DD")==moment().subtract(4, "days").format("YYYY-MM-DD")){
+                            civicFeedDayCounter[4]+= 1;}
+                        // Today -5 counter 
+                        else if (moment(response.articles[i].created).format("YYYY-MM-DD")==moment().subtract(5, "days").format("YYYY-MM-DD")){
+                            civicFeedDayCounter[5]+= 1;}
+                        // Today -6 counter 
+                        else {
+                            civicFeedDayCounter[6]+= 1;}
+                };
+                console.log("Civic Feed API Day counter is : " + civicFeedDayCounter);
+
+
+                $("#civicFeedBlock").append("<div class=col-3 id=civicFeedDaysCounter><h5>Civic Feed API Per Day Post Summary</h5></div>");
+                        $("#civicFeedDaysCounter").append("<hr>");
+
+                        for (i=1; i<=7 ;i++){
+                            $("#civicFeedDaysCounter").append("<p id=civicFeedDateCount"+i+"></p>");    
+                        }
+
+                        $("#civicFeedDateCount1").text(moment().format("YYYY-MM-DD") + " : " + civicFeedDayCounter[0]);
+                        $("#civicFeedDateCount2").text(moment().subtract(1, "days").format("YYYY-MM-DD") + " : " + civicFeedDayCounter[1]);
+                        $("#civicFeedDateCount3").text(moment().subtract(2, "days").format("YYYY-MM-DD") + " : " + civicFeedDayCounter[2]);
+                        $("#civicFeedDateCount4").text(moment().subtract(3, "days").format("YYYY-MM-DD") + " : " + civicFeedDayCounter[3]);
+                        $("#civicFeedDateCount5").text(moment().subtract(4, "days").format("YYYY-MM-DD") + " : " + civicFeedDayCounter[4]);
+                        $("#civicFeedDateCount6").text(moment().subtract(5, "days").format("YYYY-MM-DD") + " : " + civicFeedDayCounter[5]);
+                        $("#civicFeedDateCount7").text(moment().subtract(6, "days").format("YYYY-MM-DD") + " : " + civicFeedDayCounter[6]);
+
+
+                // Preview Links sub-block
+                $("#civicFeedBlock").append("<div class=col id=civicFeedLinks><H5>Links from Civic Feed API</H5></div>");
+                $("#civicFeedLinks").append("<hr>");
+                    for (i=1; i<=5;i++){
+                        $("#civicFeedLinks").append("<div><p id=civicFeedTitle"+i+"></p><a id=civicFeedURL"+i+" target=_blank> URL </a></div>");
+                    }
+
+                    $("#civicFeedTitle1").text(response.articles[0].title);
+                    $("#civicFeedURL1").attr("href",response.articles[0].url);
+                    $("#civicFeedTitle2").text(response.articles[1].title);
+                    $("#civicFeedURL2").attr("href",response.articles[1].url);
+                    $("#civicFeedTitle3").text(response.articles[2].title);
+                    $("#civicFeedURL3").attr("href",response.articles[2].url);
+                    $("#civicFeedTitle4").text(response.articles[3].title);
+                    $("#civicFeedURL4").attr("href",response.articles[3].url);
+                    $("#civicFeedTitle5").text(response.articles[4].title);
+                    $("#civicFeedURL5").attr("href",response.articles[4].url);
+                    
+
+                
+        });
+
+}
+
+function callCivicFeedApi(){
+
+    var query=$.trim($("#filter").val());
+    var fromDate = moment().subtract(6, "days").format("YYYY-MM-DD");
+
+    var queryCivicFeedApi = "https://api-beta.civicfeed.com/news/search?q="+ query + "&results=30&from-date=" + fromDate;
+    
+    //calling Civic Feed API
+
+
+    $.ajax({
+        url: queryCivicFeedApi,
+        method: "GET",
+        headers: {
+            "X-API-KEY": "nP9mFMWdc75xO3rYFImxQ7XZATBzmWwWaWXPrkqd",
+        }
+        }).then(function(response) {
+            // console.log(response); // getting response 
+            $("#apiContainer").append("<div class=row id=civicFeedBlock></div>");
+            $("#civicFeedBlock").addClass("container-fluid");
+                            
+                //summary sub-block 
+
+                $("#civicFeedBlock").append("<div class=col-3 id=civicFeedApiSummary><h5>Summary from Civic Feed API</h5></div>");
+                $("#civicFeedApiSummary").append("<hr>");
+
+                $("#civicFeedApiSummary").append("<p id=civicFeedDateRange></p>");
+                $("#civicFeedDateRange").text("Date Range : " + moment(response.articles[0].created).format("YYYY-MM-DD") + " to " +moment(response.articles[response.articles.length-1].created).format("YYYY-MM-DD"));
+
+                $("#civicFeedApiSummary").append("<p id=noOfArticlesAPI></p>");
+                $("#noOfArticlesAPI").text("Found "+ response.results + " number of articles"); 
+
+                // Day Division sub-block
+
+                var civicFeedDayCounter=[0,0,0,0,0,0,0]; // Today, Today-1, Today-3, ... Today-7
+                for(i=0;i<response.articles.length;i++){
+                        // Today counter 
+                        if(moment(response.articles[i].created).format("YYYY-MM-DD")==moment().format("YYYY-MM-DD")){
+                            civicFeedDayCounter[0]+= 1;}
+                        // Today -1 counter 
+                        else if (moment(response.articles[i].created).format("YYYY-MM-DD")==moment().subtract(1, "days").format("YYYY-MM-DD")){
+                            civicFeedDayCounter[1]+= 1;}
+                        // Today -2 counter
+                        else if (moment(response.articles[i].created).format("YYYY-MM-DD")==moment().subtract(2, "days").format("YYYY-MM-DD")){
+                            civicFeedDayCounter[2]+= 1;}
+                        // Today -3 counter 
+                        else if (moment(response.articles[i].created).format("YYYY-MM-DD")==moment().subtract(3, "days").format("YYYY-MM-DD")){
+                            civicFeedDayCounter[3]+= 1;}
+                        // Today -4 counter 
+                        else if (moment(response.articles[i].created).format("YYYY-MM-DD")==moment().subtract(4, "days").format("YYYY-MM-DD")){
+                            civicFeedDayCounter[4]+= 1;}
+                        // Today -5 counter 
+                        else if (moment(response.articles[i].created).format("YYYY-MM-DD")==moment().subtract(5, "days").format("YYYY-MM-DD")){
+                            civicFeedDayCounter[5]+= 1;}
+                        // Today -6 counter 
+                        else {
+                            civicFeedDayCounter[6]+= 1;}
+                };
+                console.log("Civic Feed API Day counter is : " + civicFeedDayCounter);
+
+
+                $("#civicFeedBlock").append("<div class=col-3 id=civicFeedDaysCounter><h5>Civic Feed API Per Day Post Summary</h5></div>");
+                        $("#civicFeedDaysCounter").append("<hr>");
+
+                        for (i=1; i<=7 ;i++){
+                            $("#civicFeedDaysCounter").append("<p id=civicFeedDateCount"+i+"></p>");    
+                        }
+
+                        $("#civicFeedDateCount1").text(moment().format("YYYY-MM-DD") + " : " + civicFeedDayCounter[0]);
+                        $("#civicFeedDateCount2").text(moment().subtract(1, "days").format("YYYY-MM-DD") + " : " + civicFeedDayCounter[1]);
+                        $("#civicFeedDateCount3").text(moment().subtract(2, "days").format("YYYY-MM-DD") + " : " + civicFeedDayCounter[2]);
+                        $("#civicFeedDateCount4").text(moment().subtract(3, "days").format("YYYY-MM-DD") + " : " + civicFeedDayCounter[3]);
+                        $("#civicFeedDateCount5").text(moment().subtract(4, "days").format("YYYY-MM-DD") + " : " + civicFeedDayCounter[4]);
+                        $("#civicFeedDateCount6").text(moment().subtract(5, "days").format("YYYY-MM-DD") + " : " + civicFeedDayCounter[5]);
+                        $("#civicFeedDateCount7").text(moment().subtract(6, "days").format("YYYY-MM-DD") + " : " + civicFeedDayCounter[6]);
+
+
+                // Preview Links sub-block
+                $("#civicFeedBlock").append("<div class=col id=civicFeedLinks><H5>Links from Civic Feed API</H5></div>");
+                $("#civicFeedLinks").append("<hr>");
+                    for (i=1; i<=5;i++){
+                        $("#civicFeedLinks").append("<div><p id=civicFeedTitle"+i+"></p><a id=civicFeedURL"+i+" target=_blank> URL </a></div>");
+                    }
+
+                    $("#civicFeedTitle1").text(response.articles[0].title);
+                    $("#civicFeedURL1").attr("href",response.articles[0].url);
+                    $("#civicFeedTitle2").text(response.articles[1].title);
+                    $("#civicFeedURL2").attr("href",response.articles[1].url);
+                    $("#civicFeedTitle3").text(response.articles[2].title);
+                    $("#civicFeedURL3").attr("href",response.articles[2].url);
+                    $("#civicFeedTitle4").text(response.articles[3].title);
+                    $("#civicFeedURL4").attr("href",response.articles[3].url);
+                    $("#civicFeedTitle5").text(response.articles[4].title);
+                    $("#civicFeedURL5").attr("href",response.articles[4].url);
                     
 
                 
