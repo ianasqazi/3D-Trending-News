@@ -1,5 +1,21 @@
+function aboutTheTeam(){
+    $(".main").hide();
+    $("#apiblock").hide();
+    $("#api1Threshold").hide();
+    $("#topLinks").hide();
+    $("#topLinks").hide();
+    $("#topLinks").hide();
+    $("#filter").hide();
+    $("#filtersubmit").hide();
+    $(".row").show();
+
+    
+};
+
 $(document).ready(function(){
 
+ 
+    $(".row").hide();
     $('#filter').keypress(function(event){
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if(keycode == '13'|| keycode == '10'){
