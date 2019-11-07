@@ -93,13 +93,13 @@ h1{
  #reason{
      word-wrap: break-word;
      border: solid 2px gray ;
-     color: rgba(3, 8, 39, 0.972);
+     color:  gray;
      border-radius: 9px;
      padding: 5px;
      margin-right: 0px;
  }
  h3{
-     color: gray;
+     color:  #008080;
      border: lightgrey 0px 0px 2px 0px solid;
  
 }
@@ -111,7 +111,13 @@ h1{
     border: solid 2px gray;
     border-radius: 9px;
 }
-
+#text{
+    margin-bottom: 20px;
+}
+#guardianApiBlock,  #newsApiBlock, #civicFeedBlock{
+    border: 1px solid gray;
+     margin: 10px;
+}
  
 
 
@@ -130,7 +136,7 @@ h1{
 * * * * * * * { background-color: rgba(255,0,0,.2); }
 * * * * * * * * { background-color: rgba(0,255,0,.2); }
 * * * * * * * * * { background-color: rgba(0,0,255,.2); }*/
-
+/* 
 #aFrameBox{
     border: 1px solid blue;
     margin: 10px;
@@ -141,10 +147,7 @@ h1{
   margin: 10px;
 }
 
-#guardianApiBlock{
-    border: 1px solid red;
-  margin: 10px;
-}
+
 
 #newsApiSummary, #newsApiDaysCounter, #newsApiLinks{
     border: 1px solid grey;
@@ -154,4 +157,4 @@ h1{
   #newsApiBlock{
       border: 1px solid red;
     margin: 10px;
-  }
+  } */
