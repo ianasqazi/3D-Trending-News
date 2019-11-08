@@ -69,7 +69,7 @@ $(document).ready(function(){
     $("#filtersubmit").click(function(){
         apiContainer();
         clearUI();
-        aFrameBox();
+        //aFrameBox();
         callGuardian();
         callNewsApi();
         callCivicFeedApi();
