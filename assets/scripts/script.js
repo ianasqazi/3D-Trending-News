@@ -25,14 +25,14 @@ $(document).ready(function(){
     $(".card").hide();
     $(".row").hide();
     $("#home").hide();
-    $('#filter').keypress(function(event){
-        var keycode = (event.keyCode ? event.keyCode : event.which);
-        if(keycode == '13'|| keycode == '10'){
-        event.preventDefault();
-         // callAPI();
-        callGuardian();
-        }
-      });
+//     $('#filter').keypress(function(event){
+//         var keycode = (event.keyCode ? event.keyCode : event.which);
+//         if(keycode == '13'|| keycode == '10'){
+//         event.preventDefault();
+//          // callAPI();
+//         callGuardian();
+//         }
+//       });
 
       
       $('#searchIcon').on( "mouseenter", function(){
@@ -69,7 +69,7 @@ $(document).ready(function(){
     $("#filtersubmit").click(function(){
         apiContainer();
         clearUI();
-        //aFrameBox();
+        aFrameBox();
         callGuardian();
         callNewsApi();
         callCivicFeedApi();
