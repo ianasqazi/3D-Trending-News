@@ -1,5 +1,40 @@
+function aboutTheTeam(){
+    $(".main").hide();
+    $("#apiblock").hide();
+    $("#api1Threshold").hide();
+    $("#topLinks").hide();
+    $("#topLinks").hide();
+    $("#topLinks").hide();
+    $("#filter").hide();
+    $("#filtersubmit").hide();
+    $(".row").show();
+    $("#home").show();
+    $("#about").hide();
+    $(".card-body").show();
+    $(".card").show();
+    $("#teamMembers").show();
+
+
+    
+};
+
 $(document).ready(function(){
 
+    $(".card-body").hide();
+    $("#teamMembers").hide();
+    $(".card").hide();
+    $(".row").hide();
+    $("#home").hide();
+    $('#filter').keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'|| keycode == '10'){
+        event.preventDefault();
+         // callAPI();
+        callGuardian();
+        }
+      });
+
+      
       $('#searchIcon').on( "mouseenter", function(){
          $(this).addClass('fa-arrow-right') ,
          $(this).removeClass('fa-search') 
@@ -9,9 +44,31 @@ $(document).ready(function(){
         $(this).addClass('fa-search') 
       } );
 
+      $("#home").click(function(){
+        apiContainer();
+        clearUI();
+        callGuardian();
+        callNewsApi();
+        $(".main").show();
+        $("#apiblock").show();
+        $("#api1Threshold").show();
+        $("#topLinks").show();
+        $("#topLinks").show();
+        $("#topLinks").show();
+        $("#filter").show();
+        $("#filtersubmit").show();
+        $(".row").hide();
+        $("#home").hide();
+        $("#about").show();
+        $(".card").hide();
+        $(".card-body").hide();
+        $("#teamMembers").hide();
+
+    });
     $("#filtersubmit").click(function(){
         apiContainer();
         clearUI();
+        //aFrameBox();
         callGuardian();
         callNewsApi();
         callCivicFeedApi();
@@ -32,6 +89,7 @@ function clearUI(){
     $("#aFrameBox").remove();
     $("#guardianApiBlock").remove();
     $("#newsApiBlock").remove();
+    $("#civicFeedBlock").remove();
 
 }
 
@@ -49,23 +107,21 @@ function callGuardian(){
                     method: "GET"
                     }).then(function(response) {
 
-                        var arrResults=response.response.results;
+                        var arrResults=response.response.results; // Results array
                         
+                        // API Main block
                         $("#apiContainer").append("<div class=row id=guardianApiBlock></div>");
                         $("#guardianApiBlock").addClass("container-fluid");
                             
                         //summary sub-block
                         $("#guardianApiBlock").append("<div class=col-3 id=apiSummary><h5>Guardian General Summary</h5></div>");
                         $("#apiSummary").append("<hr>");
-
                         $("#apiSummary").append("<p id=datePeriod></p>");
-
                         $("#datePeriod").text("Date Range : " + moment(arrResults[0].webPublicationDate).format("YYYY-MM-DD") + " to " +moment(arrResults[arrResults.length-1].webPublicationDate).format("YYYY-MM-DD"));
                         $("#apiSummary").append("<p id=noOfArticles></p>");
                         $("#noOfArticles").text("Found "+ response.response.total + " number of articles");
                         
                         // Day Division sub-block
-
                         var guardianDayCounter=[0,0,0,0,0,0,0]; // Today, Today-1, Today-3, ... Today-7
                             for(i=0;i<arrResults.length;i++){
                                     // Today counter 
@@ -90,26 +146,29 @@ function callGuardian(){
                                     else {
                                         guardianDayCounter[6]+= 1;}
                             };
-                        console.log("Guardian Day counter array is = " + guardianDayCounter);
+                        // console.log("Guardian Day counter array is = " + guardianDayCounter);
+                        // Check if the array returns zero responses
+                        checkDayCounter(guardianDayCounter);
+
 
                         $("#guardianApiBlock").append("<div class=col-3 id=apiDaysCounter><h5>Guardian Per Day Post Summary</h5></div>");
                         $("#apiDaysCounter").append("<hr>");
 
-                        for (i=1; i<=7 ;i++){
-                            $("#apiDaysCounter").append("<p id=dateCount"+i+"></p>");    
-                        }
+                            for (i=1; i<=7 ;i++){
+                                $("#apiDaysCounter").append("<p id=dateCount"+i+"></p>");    
+                            }
 
-                        $("#dateCount1").text(moment().format("YYYY-MM-DD") + " : " + guardianDayCounter[0]);
-                        $("#dateCount2").text(moment().subtract(1, "days").format("YYYY-MM-DD") + " : " + guardianDayCounter[1]);
-                        $("#dateCount3").text(moment().subtract(2, "days").format("YYYY-MM-DD") + " : " + guardianDayCounter[2]);
-                        $("#dateCount4").text(moment().subtract(3, "days").format("YYYY-MM-DD") + " : " + guardianDayCounter[3]);
-                        $("#dateCount5").text(moment().subtract(4, "days").format("YYYY-MM-DD") + " : " + guardianDayCounter[4]);
-                        $("#dateCount6").text(moment().subtract(5, "days").format("YYYY-MM-DD") + " : " + guardianDayCounter[5]);
-                        $("#dateCount7").text(moment().subtract(6, "days").format("YYYY-MM-DD") + " : " + guardianDayCounter[6]);
+                            $("#dateCount1").text(moment().format("YYYY-MM-DD") + " : " + guardianDayCounter[0]);
+                            $("#dateCount2").text(moment().subtract(1, "days").format("YYYY-MM-DD") + " : " + guardianDayCounter[1]);
+                            $("#dateCount3").text(moment().subtract(2, "days").format("YYYY-MM-DD") + " : " + guardianDayCounter[2]);
+                            $("#dateCount4").text(moment().subtract(3, "days").format("YYYY-MM-DD") + " : " + guardianDayCounter[3]);
+                            $("#dateCount5").text(moment().subtract(4, "days").format("YYYY-MM-DD") + " : " + guardianDayCounter[4]);
+                            $("#dateCount6").text(moment().subtract(5, "days").format("YYYY-MM-DD") + " : " + guardianDayCounter[5]);
+                            $("#dateCount7").text(moment().subtract(6, "days").format("YYYY-MM-DD") + " : " + guardianDayCounter[6]);
 
                         // Preview Link sub-block
 
-                        $("#guardianApiBlock").append("<div class=col-5 id=guardianApiLinks><H5>Links from Guardian API</H5></div>");
+                        $("#guardianApiBlock").append("<div class=col id=guardianApiLinks><H5>Links from Guardian API</H5></div>");
                         $("#guardianApiLinks").append("<hr>");
                         for (i=1; i<=5 ;i++){
                             $("#guardianApiLinks").append("<div><p id=guardianApiTitle"+i+"></p><a id=guardianApiURL"+i+" target=_blank> URL </a></div>");
@@ -129,7 +188,11 @@ function callGuardian(){
                     });
 
 }
+<<<<<<< HEAD
 var newsApiDayCounter = [];
+=======
+
+>>>>>>> master
 function callNewsApi(){
 
     var query=$.trim($("#filter").val());
@@ -149,10 +212,8 @@ function callNewsApi(){
 
                 $("#newsApiBlock").append("<div class=col-3 id=newsApiSummary><h5>Summary from News API</h5></div>");
                 $("#newsApiSummary").append("<hr>");
-
                 $("#newsApiSummary").append("<p id=newsApiDateRange></p>");
                 $("#newsApiDateRange").text("Date Range : " + moment(response.articles[0].publishedAt).format("YYYY-MM-DD") + " to " +moment(response.articles[response.articles.length-1].publishedAt).format("YYYY-MM-DD"));
-
                 $("#newsApiSummary").append("<p id=noOfArticlesAPI></p>");
                 $("#noOfArticlesAPI").text("Found "+ response.totalResults + " number of articles"); 
 
@@ -182,7 +243,9 @@ function callNewsApi(){
                         else {
                             newsApiDayCounter[6]+= 1;}
                 };
-                console.log("News API Day counter is : " + newsApiDayCounter);
+                // console.log("News API Day counter is : " + newsApiDayCounter);
+                // Check if the array returns zero responses
+                checkDayCounter(newsApiDayCounter);
 
 
                 $("#newsApiBlock").append("<div class=col-3 id=newsApiDaysCounter><h5>News API Per Day Post Summary</h5></div>");
@@ -217,10 +280,14 @@ function callNewsApi(){
                     $("#newsApiTitle4").text(response.articles[3].title);
                     $("#newsApiURL4").attr("href",response.articles[3].url);
                     $("#newsApiTitle5").text(response.articles[4].title);
+<<<<<<< HEAD
                     $("#newsApiURL5").attr("href",response.articles[4].url);
 
                     
                    return newsApiDayCounter;
+=======
+                    $("#newsApiURL5").attr("href",response.articles[4].url); 
+>>>>>>> master
         });
 
 }
@@ -236,13 +303,11 @@ function callCivicFeedApi(){
     var queryCivicFeedApi = "https://api-beta.civicfeed.com/news/search?q="+ query + "&results=30&from-date=" + fromDate;
     
     //calling Civic Feed API
-
-
     $.ajax({
         url: queryCivicFeedApi,
         method: "GET",
         headers: {
-            "X-API-KEY": "nP9mFMWdc75xO3rYFImxQ7XZATBzmWwWaWXPrkqd",
+            "X-API-KEY": "mX8JVJCIBc9iJYmc3MLQOARBnSFR48x8fCYDkKz0",
         }
         }).then(function(response) {
             // console.log(response); // getting response 
@@ -253,10 +318,8 @@ function callCivicFeedApi(){
 
                 $("#civicFeedBlock").append("<div class=col-3 id=civicFeedApiSummary><h5>Summary from Civic Feed API</h5></div>");
                 $("#civicFeedApiSummary").append("<hr>");
-
                 $("#civicFeedApiSummary").append("<p id=civicFeedDateRange></p>");
                 $("#civicFeedDateRange").text("Date Range : " + moment(response.articles[0].created).format("YYYY-MM-DD") + " to " +moment(response.articles[response.articles.length-1].created).format("YYYY-MM-DD"));
-
                 $("#civicFeedApiSummary").append("<p id=noOfArticlesAPI></p>");
                 $("#noOfArticlesAPI").text("Found "+ response.results + " number of articles"); 
 
@@ -286,7 +349,9 @@ function callCivicFeedApi(){
                         else {
                             civicFeedDayCounter[6]+= 1;}
                 };
-                console.log("Civic Feed API Day counter is : " + civicFeedDayCounter);
+                // console.log("Civic Feed API Day counter is : " + civicFeedDayCounter);
+                // Check if the array returns zero responses
+                checkDayCounter(civicFeedDayCounter);
 
 
                 $("#civicFeedBlock").append("<div class=col-3 id=civicFeedDaysCounter><h5>Civic Feed API Per Day Post Summary</h5></div>");
@@ -323,113 +388,20 @@ function callCivicFeedApi(){
                     $("#civicFeedTitle5").text(response.articles[4].title);
                     $("#civicFeedURL5").attr("href",response.articles[4].url);
                     
-
-                
         });
 
 }
 
-function callCivicFeedApi(){
-
-    var query=$.trim($("#filter").val());
-    var fromDate = moment().subtract(6, "days").format("YYYY-MM-DD");
-
-    var queryCivicFeedApi = "https://api-beta.civicfeed.com/news/search?q="+ query + "&results=30&from-date=" + fromDate;
-    
-    //calling Civic Feed API
-
-
-    $.ajax({
-        url: queryCivicFeedApi,
-        method: "GET",
-        headers: {
-            "X-API-KEY": "nP9mFMWdc75xO3rYFImxQ7XZATBzmWwWaWXPrkqd",
-        }
-        }).then(function(response) {
-            // console.log(response); // getting response 
-            $("#apiContainer").append("<div class=row id=civicFeedBlock></div>");
-            $("#civicFeedBlock").addClass("container-fluid");
-                            
-                //summary sub-block 
-
-                $("#civicFeedBlock").append("<div class=col-3 id=civicFeedApiSummary><h5>Summary from Civic Feed API</h5></div>");
-                $("#civicFeedApiSummary").append("<hr>");
-
-                $("#civicFeedApiSummary").append("<p id=civicFeedDateRange></p>");
-                $("#civicFeedDateRange").text("Date Range : " + moment(response.articles[0].created).format("YYYY-MM-DD") + " to " +moment(response.articles[response.articles.length-1].created).format("YYYY-MM-DD"));
-
-                $("#civicFeedApiSummary").append("<p id=noOfArticlesAPI></p>");
-                $("#noOfArticlesAPI").text("Found "+ response.results + " number of articles"); 
-
-                // Day Division sub-block
-
-                var civicFeedDayCounter=[0,0,0,0,0,0,0]; // Today, Today-1, Today-3, ... Today-7
-                for(i=0;i<response.articles.length;i++){
-                        // Today counter 
-                        if(moment(response.articles[i].created).format("YYYY-MM-DD")==moment().format("YYYY-MM-DD")){
-                            civicFeedDayCounter[0]+= 1;}
-                        // Today -1 counter 
-                        else if (moment(response.articles[i].created).format("YYYY-MM-DD")==moment().subtract(1, "days").format("YYYY-MM-DD")){
-                            civicFeedDayCounter[1]+= 1;}
-                        // Today -2 counter
-                        else if (moment(response.articles[i].created).format("YYYY-MM-DD")==moment().subtract(2, "days").format("YYYY-MM-DD")){
-                            civicFeedDayCounter[2]+= 1;}
-                        // Today -3 counter 
-                        else if (moment(response.articles[i].created).format("YYYY-MM-DD")==moment().subtract(3, "days").format("YYYY-MM-DD")){
-                            civicFeedDayCounter[3]+= 1;}
-                        // Today -4 counter 
-                        else if (moment(response.articles[i].created).format("YYYY-MM-DD")==moment().subtract(4, "days").format("YYYY-MM-DD")){
-                            civicFeedDayCounter[4]+= 1;}
-                        // Today -5 counter 
-                        else if (moment(response.articles[i].created).format("YYYY-MM-DD")==moment().subtract(5, "days").format("YYYY-MM-DD")){
-                            civicFeedDayCounter[5]+= 1;}
-                        // Today -6 counter 
-                        else {
-                            civicFeedDayCounter[6]+= 1;}
-                };
-                console.log("Civic Feed API Day counter is : " + civicFeedDayCounter);
-
-
-                $("#civicFeedBlock").append("<div class=col-3 id=civicFeedDaysCounter><h5>Civic Feed API Per Day Post Summary</h5></div>");
-                        $("#civicFeedDaysCounter").append("<hr>");
-
-                        for (i=1; i<=7 ;i++){
-                            $("#civicFeedDaysCounter").append("<p id=civicFeedDateCount"+i+"></p>");    
-                        }
-
-                        $("#civicFeedDateCount1").text(moment().format("YYYY-MM-DD") + " : " + civicFeedDayCounter[0]);
-                        $("#civicFeedDateCount2").text(moment().subtract(1, "days").format("YYYY-MM-DD") + " : " + civicFeedDayCounter[1]);
-                        $("#civicFeedDateCount3").text(moment().subtract(2, "days").format("YYYY-MM-DD") + " : " + civicFeedDayCounter[2]);
-                        $("#civicFeedDateCount4").text(moment().subtract(3, "days").format("YYYY-MM-DD") + " : " + civicFeedDayCounter[3]);
-                        $("#civicFeedDateCount5").text(moment().subtract(4, "days").format("YYYY-MM-DD") + " : " + civicFeedDayCounter[4]);
-                        $("#civicFeedDateCount6").text(moment().subtract(5, "days").format("YYYY-MM-DD") + " : " + civicFeedDayCounter[5]);
-                        $("#civicFeedDateCount7").text(moment().subtract(6, "days").format("YYYY-MM-DD") + " : " + civicFeedDayCounter[6]);
-
-
-                // Preview Links sub-block
-                $("#civicFeedBlock").append("<div class=col id=civicFeedLinks><H5>Links from Civic Feed API</H5></div>");
-                $("#civicFeedLinks").append("<hr>");
-                    for (i=1; i<=5;i++){
-                        $("#civicFeedLinks").append("<div><p id=civicFeedTitle"+i+"></p><a id=civicFeedURL"+i+" target=_blank> URL </a></div>");
-                    }
-
-                    $("#civicFeedTitle1").text(response.articles[0].title);
-                    $("#civicFeedURL1").attr("href",response.articles[0].url);
-                    $("#civicFeedTitle2").text(response.articles[1].title);
-                    $("#civicFeedURL2").attr("href",response.articles[1].url);
-                    $("#civicFeedTitle3").text(response.articles[2].title);
-                    $("#civicFeedURL3").attr("href",response.articles[2].url);
-                    $("#civicFeedTitle4").text(response.articles[3].title);
-                    $("#civicFeedURL4").attr("href",response.articles[3].url);
-                    $("#civicFeedTitle5").text(response.articles[4].title);
-                    $("#civicFeedURL5").attr("href",response.articles[4].url);
-                    
-
-                
-        });
-
-}
-
+function checkDayCounter(arr) {
+    if(arr[0] == 0) {
+        if(arr[1] == 0) {
+            if(arr[2] == 0) {
+                if(arr[3] == 0) {
+                    if(arr[4] == 0) {
+                        if(arr[5] == 0) {
+                            if(arr[6] == 0) {
+             return swal("API Response is Null");}}}}}}}
+ }
 
 function aFrameBox(){
     $(".main").prepend("<div id=aFrameBox></div>");

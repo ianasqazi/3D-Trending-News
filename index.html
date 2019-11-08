@@ -10,6 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel = "stylesheet" type = "text/css" href = ".\assets\styles\style.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.26/moment-timezone-with-data.js"></script>
 
@@ -26,39 +27,97 @@
        
         <div class="container-fluid">
                 <div class="text-center"> 
-                        <div id="about"><a href="#" >More about the Team</a></div>
+                        <div id="about"><a href="#" onclick="aboutTheTeam()">More about the Team</a></div>
+                        <div id="home"><a href="#" >Back to Application</a></div>
                     <div class="input-group">
                         <input id="filter" type="text" placeholder="  Start to explore" />
-                        <button type="submit" id="filtersubmit"><i id="searchIcon" class="fa fa-search"></i></button>
-                        
-                </div>
-
+                        <button type="submit" id="filtersubmit"><i id="searchIcon" class="fa fa-search"></i></button>    
+                     </div>
                 <div class="main">
-                   
-                    <div class="form-control" id="comment"><p>As someone who makes use of statistical information, I would like to know the prevalence of trending topics within the news cycle. So that I can get a quick view of the trending topic content across the multiple websites, assessing the single keyword being used.</p></div>
-                    </div>
-
-                    <div id="aFrameBox" style="border: 0px;">
-
-                            <a-scene embedded="" vr-mode-ui="enabled: false" inspector="" keyboard-shortcuts="" screenshot="" id="aFrameScene">
-                    
-                                <a-camera fov="80" wasd-controls-enabled="false" look-controls-enabled="false" position="0 1.5 0" look-at-position="0 0 0" rotation="-30 0 0">
-                                </a-camera>
-
-                            </a-scene>
-
-                    </div>
-
+                    <div class="form-control" id="comment"><p>This Page displays the news feed from multiple API : Gaurdian API, News API and Civic Feed API.  It displays 3 blocks of data which details on Summary of the headlines for last 7 days, next block is for count of articles per day and last one displays URLs.</p></div>
                 </div>
-        </div>
-        
-        <div style="height: 50px;">
-
-        </div>
-
-        <div class="footer">
-                <p>(c) 2019 Team Bravo</p>
-        
+                <div class= "row justify-content-around" >
+                    <div id = "reason" class="col-md-3"><h3>Why We Did It</h3><p>Given the abundance of information across the web Team Bravo has committed to the development of a web platform that allows interested parties, such as journalists and media analysts, to quickly and efficiently dissect the prevalence of a topic within the news cycle.
+                        The product aims to aggregate and analyze multiple high volume information outlets such as news portals and social media sites and present the user with an easy to digest overview.
+                        To best facilitate this, Team Bravo aims to utilize the dynamic 3D objects generation power of a-Frame. These objects will later have filters and further interactivity, beyond the initial spatial rotation</p></div>
+                    <div id = "reason" class="col-md-3"><h3>What We Used</h3><li>HTML</li>
+                    <li>Css</li>
+                    <li>bootstrap</li>
+                    <li>Javascript</li>
+                    <li>JQuery</li>
+                    <li>aFrame</li>
+                </div>
+                <div id="reason" class="col-md-3"><h3>API Used</h3><li><a href = "https://api-beta.civicfeed.com" >Civic Feed</a></li>
+                    <li><a href = "https://newsapi.org" >News Api</a></li>
+                    <li><a href = "https://www.reddit.com" >Reddit</a></li>
+                    <li><a href = "https://content.guardianapis.com" >Guardian Api</a></li>
             </div>
+                </div>
+                <div id="teamMembers"><h4>Team Members</h4></div>
+                <div class= "row justify-content-around sidenav" >
+                        <div class="card" style="width: 18rem;">
+                                <div class="card-body">
+                                  <h5 class="card-title">Aurelian Rus</h5>
+                                  <h6 class="card-subtitle mb-2 text-muted">aFrame building</h6>
+                                  <p class="card-text">Expert in VR world...I am the best.</p>
+                                  <a href="https://github.com/Ral03" class="card-link">Github link</a>
+                                  <a href="https://ca.linkedin.com/in/aurelianrus" class="card-link">Linkedin link</a>
+                                </div>
+                              </div>
+
+                              <div class="card" style="width: 18rem;">
+                                    <div class="card-body">
+                                      <h5 class="card-title">Anya Fareena</h5>
+                                      <h6 class="card-subtitle mb-2 text-muted">Api Response Functionality</h6>
+                                      <p class="card-text">I have spent the last six years developing my skills on Microsoft Messaging and GSuite Solutions.</p>
+                                      <a href="https://github.com/AnyaFareena" class="card-link">Github link</a>
+                                      <a href="https://www.linkedin.com/in/anya-fareena-330192109/" class="card-link">Linkedin link</a>
+                                    </div>
+                                  </div>
+
+                                  <div class="card" style="width: 18rem;">
+                                        <div class="card-body">
+                                          <h5 class="card-title">Shaili Shah</h5>
+                                          <h6 class="card-subtitle mb-2 text-muted">Page Designing</h6>
+                                          <p class="card-text">Works well under pressure and consistently meets deadlines ad targets while delivering high quality work.</p>
+                                          <a href="https://github.com/sshaili" class="card-link">Github link</a>
+                                          <a href="https://www.linkedin.com/in/shaili-shah-88706512b/" class="card-link">Linkedin link</a>
+                                        </div>
+                                      </div>
+
+                                      <div class="card" style="width: 18rem;">
+                                            <div class="card-body">
+                                              <h5 class="card-title">Anas Qazi</h5>
+                                              <h6 class="card-subtitle mb-2 text-muted">Api Response Functionality</h6>
+                                              <p class="card-text">No !! I am the Best</p>
+                                              <a href="https://github.com/ianasqazi" class="card-link">Github link</a>
+                                              <a href="www.linkedin.com/in/anasqazi" class="card-link">Linkedin link</a>
+                                            </div>
+                                        </div>
+                </div>
+                </div>
+                 </div>
+                 
+           
+                      
+                <div id="aFrameBox" style="border: 0px;">
+                    <a-scene embedded="" vr-mode-ui="enabled: false" inspector="" keyboard-shortcuts="" screenshot="" id="aFrameScene">
+                    
+                        <a-camera fov="80" wasd-controls-enabled="false" look-controls-enabled="false" position="0 1.5 0" look-at-position="0 0 0" rotation="-30 0 0">
+                        </a-camera>
+
+                    </a-scene>
+                </div>
+               
+        </div>
+        
+        <div style="height: 150px;">
+        </div>
+        <footer class="footer"><span id="text"> &copy; 2019 Team Bravo</span>
+        </footer>
+
+      
+
+           
 </body>
 </html>
