@@ -188,11 +188,7 @@ function callGuardian(){
                     });
 
 }
-<<<<<<< HEAD
 var newsApiDayCounter = [];
-=======
-
->>>>>>> master
 function callNewsApi(){
 
     var query=$.trim($("#filter").val());
@@ -280,14 +276,7 @@ function callNewsApi(){
                     $("#newsApiTitle4").text(response.articles[3].title);
                     $("#newsApiURL4").attr("href",response.articles[3].url);
                     $("#newsApiTitle5").text(response.articles[4].title);
-<<<<<<< HEAD
-                    $("#newsApiURL5").attr("href",response.articles[4].url);
-
-                    
-                   return newsApiDayCounter;
-=======
                     $("#newsApiURL5").attr("href",response.articles[4].url); 
->>>>>>> master
         });
 
 }
@@ -429,7 +418,7 @@ function aFrameSceneBuilder() {
     $('a-sky').attr({"opacity": "0.20", "color": "a8a8fa"});
 
     $("#aFrameWorld").append("<a-circle></a-circle>");
-    $('a-circle').attr(({"opacity": "0.750", "color": "a6aaaa", "position": "-0.25 -0.5 -5.5", "src": "#platform", "radius": "4.5", "rotation": "-90 0 0", "segments": "64"}))
+    $('a-circle').attr(({"opacity": "0.750", "color": "#ff00ff", "position": "-0.25 -0.5 -5.5", "src": "#platform", "radius": "4.5", "rotation": "-90 0 0", "segments": "64"}))
 
     console.log('scene re-built')
 }
