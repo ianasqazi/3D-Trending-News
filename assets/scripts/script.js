@@ -12,10 +12,10 @@ $(document).ready(function(){
     $("#filtersubmit").click(function(){
         apiContainer();
         clearUI();
-        aFrameBox();
         callGuardian();
         callNewsApi();
         callCivicFeedApi();
+        aFrameBox();
 
     });
 });
@@ -129,7 +129,7 @@ function callGuardian(){
                     });
 
 }
-
+var newsApiDayCounter = [];
 function callNewsApi(){
 
     var query=$.trim($("#filter").val());
@@ -158,7 +158,7 @@ function callNewsApi(){
 
                 // Day Division sub-block
 
-                var newsApiDayCounter=[0,0,0,0,0,0,0]; // Today, Today-1, Today-3, ... Today-7
+                 newsApiDayCounter=[0,0,0,0,0,0,0]; // Today, Today-1, Today-3, ... Today-7
                 for(i=0;i<response.articles.length;i++){
                         // Today counter 
                         if(moment(response.articles[i].publishedAt).format("YYYY-MM-DD")==moment().format("YYYY-MM-DD")){
@@ -218,12 +218,15 @@ function callNewsApi(){
                     $("#newsApiURL4").attr("href",response.articles[3].url);
                     $("#newsApiTitle5").text(response.articles[4].title);
                     $("#newsApiURL5").attr("href",response.articles[4].url);
-                    
 
-                
+                    
+                   return newsApiDayCounter;
         });
 
 }
+
+
+
 
 function callCivicFeedApi(){
 
@@ -432,10 +435,9 @@ function aFrameBox(){
     $(".main").prepend("<div id=aFrameBox></div>");
     $("#aFrameBox").addClass("container-fluid text-center");
     $("#aFrameBox").css({"height": "500px", "padding":"20px"});
-    // aFrameSceneBuilder();
-    // compileNews();
-    console.log("guardian arr is " + guardianDayCounter);
-    console.log("News  arr is " + newsApiDayCounter);   
+    aFrameSceneBuilder();
+    console.log("this is outside news ")
+    compileNews();
 
 }
 
@@ -443,7 +445,7 @@ function aFrameBox(){
 
 function aFrameSceneBuilder() {
      $("#aFrameBox").append("<a-scene id=aFrameScene></<a-scene>");
-     $("#aFrameScene").attr({"embedded": "", "vr-mode-ui": "enabled: false", "inspector": "false", "keyboard-shortcuts":"", "screenshot":""});
+     $("#aFrameScene").attr({"embedded": "", "vr-mode-ui": "enabled: false", "inspector": "true", "keyboard-shortcuts":"", "screenshot":""});
 
      $("#aFrameScene").append("<a-entity camera id=aFrameCamera></a-entity>")
      $("#aFrameCamera").attr({"camera": "active: true", "fov": "80", "wasd-controls-enabled": "false", "look-controls-enabled": "false", "position": "0 2 0", "look-at-position": "0 0 0", "rotation": "-30 0 0"});
@@ -462,39 +464,43 @@ function aFrameSceneBuilder() {
 
 // ↓ transforming API data into objects
 
-    // function compileNews(){
+    function compileNews(){
 
-    //     var position = [newsApiDayCounter.index[0].val()*0.1,
-    //                     newsApiDayCounter.index[1].val()*0.1,
-    //                     newsApiDayCounter.index[2].val()*0.1,
-    //                     newsApiDayCounter.index[3].val()*0.1,
-    //                     newsApiDayCounter.index[4].val()*0.1,
-    //                     newsApiDayCounter.index[5].val()*0.1,
-    //                     newsApiDayCounter.index[6].val()*0.1,
-    //                     newsApiDayCounter.index[7].val()*0.1]
+        console.log("this is in the compiler " + newsApiDayCounter);
+
+        // var position = [newsApiDayCounter.index[0].val()*0.1,
+        //                 newsApiDayCounter.index[1].val()*0.1,
+        //                 newsApiDayCounter.index[2].val()*0.1,
+        //                 newsApiDayCounter.index[3].val()*0.1,
+        //                 newsApiDayCounter.index[4].val()*0.1,
+        //                 newsApiDayCounter.index[5].val()*0.1,
+        //                 newsApiDayCounter.index[6].val()*0.1,
+        //                 newsApiDayCounter.index[7].val()*0.1]
+
+        var position = [0,5, 0.7, 0.3, 0.6, 2.5, 3.2, 1.3];
 
         
-    // $("#aFrameWorld").append("<a-entity id=newsApiContainer></a-entity>");
-    // $("#newsApiContainer").attr({"position":"0 0 -2.5"})
-    // $("#newsApiContainer").append("<a-box id=newsDay0></a-box>",
-    //                                 "<a-box id=newsDay1></a-box>",
-    //                                 "<a-box id=newsDay2></a-box>",
-    //                                 "<a-box id=newsDay3></a-box>",
-    //                                 "<a-box id=newsDay4></a-box>",
-    //                                 "<a-box id=newsDay5></a-box>",
-    //                                 "<a-box id=newsDay6></a-box>");
+    $("#aFrameWorld").append("<a-entity id=newsApiContainer></a-entity>");
+    $("#newsApiContainer").attr({"position":"0 0 -2.5"})
+    $("#newsApiContainer").append("<a-box id=newsDay0></a-box>",
+                                    "<a-box id=newsDay1></a-box>",
+                                    "<a-box id=newsDay2></a-box>",
+                                    "<a-box id=newsDay3></a-box>",
+                                    "<a-box id=newsDay4></a-box>",
+                                    "<a-box id=newsDay5></a-box>",
+                                    "<a-box id=newsDay6></a-box>");
 
-    // $("#newsDay0","#newsDay1","#newsDay2","#newsDay3","#newsDay4","#newsDay5","#newsDay6",).attr({"width":"0.5", "depth":"0.5","rotation":"0 0 0", "material":"", "geometry": ""})
-    // $("#newsDay0").attr({"height": position.index[0].val(), "position":"-1.5 0 0", "color":"#ff0044"});
-    // $("#newsDay1").attr({"height": position.index[0].val(), "position":"-1 0 0", "color":"#00ff00"});
-    // $("#newsDay2").attr({"height": position.index[0].val(), "position":"-0.5 0 0", "color":"#ff0000"});
-    // $("#newsDay3").attr({"height": position.index[0].val(), "position":"0 0 0", "color":"#0000ff"});
-    // $("#newsDay4").attr({"height": position.index[0].val(), "position":"0.5 0 0", "color":"#00ff88"});
-    // $("#newsDay5").attr({"height": position.index[0].val(), "position":"1 0 0", "color":"#FF0088"});
-    // $("#newsDay6").attr({"height": position.index[0].val(), "position":"1.5 0 0", "color":"#0088FF"});
+    $("#newsDay0","#newsDay1","#newsDay2","#newsDay3","#newsDay4","#newsDay5","#newsDay6",).attr({"width":"0.5", "depth":"0.5","rotation":"0 0 0", "material":"", "geometry": ""})
+    $("#newsDay0").attr({"height": position.index[0].val(), "position":"-1.5 0 0", "color":"#ff0044"});
+    $("#newsDay1").attr({"height": position.index[0].val(), "position":"-1 0 0", "color":"#00ff00"});
+    $("#newsDay2").attr({"height": position.index[0].val(), "position":"-0.5 0 0", "color":"#ff0000"});
+    $("#newsDay3").attr({"height": position.index[0].val(), "position":"0 0 0", "color":"#0000ff"});
+    $("#newsDay4").attr({"height": position.index[0].val(), "position":"0.5 0 0", "color":"#00ff88"});
+    $("#newsDay5").attr({"height": position.index[0].val(), "position":"1 0 0", "color":"#FF0088"});
+    $("#newsDay6").attr({"height": position.index[0].val(), "position":"1.5 0 0", "color":"#0088FF"});
 
 
-    // };
+    };
 
     // console.log("guardian arr is " + guardianDayCounter);
     // console.log("News  arr is " + newsApiDayCounter);
