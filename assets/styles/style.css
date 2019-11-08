@@ -39,7 +39,7 @@ h1{
 }
 
 #comment{
-    width: 695px;
+    width: auto;
     border: none;
     height: auto;
     margin: auto;
@@ -118,6 +118,17 @@ h1{
     border: 1px solid gray;
      margin: 10px;
 }
+@media screen and (max-width: 600px) {
+    #filter{
+        width: 50%;
+    }
+}
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    #filter{
+        width: 50%;
+    }
+}
+
  
 
 /* { background-color: rgba(255,0,0,.2); }
