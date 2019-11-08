@@ -293,7 +293,7 @@ function callCivicFeedApi(){
         url: queryCivicFeedApi,
         method: "GET",
         headers: {
-            "X-API-KEY": "nP9mFMWdc75xO3rYFImxQ7XZATBzmWwWaWXPrkqd",
+            "X-API-KEY": "mX8JVJCIBc9iJYmc3MLQOARBnSFR48x8fCYDkKz0",
         }
         }).then(function(response) {
             // console.log(response); // getting response 
