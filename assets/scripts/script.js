@@ -25,14 +25,14 @@ $(document).ready(function(){
     $(".card").hide();
     $(".row").hide();
     $("#home").hide();
-    $('#filter').keypress(function(event){
-        var keycode = (event.keyCode ? event.keyCode : event.which);
-        if(keycode == '13'|| keycode == '10'){
-        event.preventDefault();
-         // callAPI();
-        callGuardian();
-        }
-      });
+//     $('#filter').keypress(function(event){
+//         var keycode = (event.keyCode ? event.keyCode : event.which);
+//         if(keycode == '13'|| keycode == '10'){
+//         event.preventDefault();
+//          // callAPI();
+//         callGuardian();
+//         }
+//       });
 
       
       $('#searchIcon').on( "mouseenter", function(){
@@ -293,7 +293,7 @@ function callCivicFeedApi(){
         url: queryCivicFeedApi,
         method: "GET",
         headers: {
-            "X-API-KEY": "nP9mFMWdc75xO3rYFImxQ7XZATBzmWwWaWXPrkqd",
+            "X-API-KEY": "mX8JVJCIBc9iJYmc3MLQOARBnSFR48x8fCYDkKz0",
         }
         }).then(function(response) {
             // console.log(response); // getting response 

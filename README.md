@@ -4,13 +4,9 @@
 As a reader i would love to know the trend in the news for a particular keyword. So when the reader enters the keyword, the website will present with detailed graph of which websites have used the particular keyword in the past week and how many number of times. 
 
 Further : if any particular news has been engaged upon alot of times. That article summary will be shown as a link/summary for the reader to visit. 
-
-```
-Include Demo Link Here !!!
-
 https://ianasqazi.github.io/3D-Trending-News/
 
-```
+
 
 
 ## Getting Started 
