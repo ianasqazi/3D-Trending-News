@@ -283,7 +283,6 @@ function callNewsApi(){
 
 
 
-
 function callCivicFeedApi(){
 
     var query=$.trim($("#filter").val());
@@ -409,7 +408,7 @@ function aFrameSceneBuilder() {
      $("#aFrameScene").attr({"embedded": "", "vr-mode-ui": "enabled: false", "inspector": "true", "keyboard-shortcuts":"", "screenshot":""});
 
      $("#aFrameScene").append("<a-entity camera id=aFrameCamera></a-entity>")
-     $("#aFrameCamera").attr({"camera": "active: true", "fov": "80", "wasd-controls-enabled": "false", "look-controls-enabled": "false", "position": "0 2 0", "look-at-position": "0 0 0", "rotation": "-30 0 0"});
+     $("#aFrameCamera").attr({"camera": "active: true", "fov": "80", "wasd-controls-enabled": "false", "look-controls-enabled": "false", "position": "x:0, y:2, z:0", "look-at-position": "0 -1 0", "rotation": "-30 0 0"});
 
     $('#aFrameScene').append("<a-entity id=aFrameWorld></a-entity>");
     $('#aFrameWorld').attr({"position": "0 0 -1"});
@@ -418,7 +417,7 @@ function aFrameSceneBuilder() {
     $('a-sky').attr({"opacity": "0.20", "color": "a8a8fa"});
 
     $("#aFrameWorld").append("<a-circle></a-circle>");
-    $('a-circle').attr(({"opacity": "0.750", "color": "#ff00ff", "position": "-0.25 -0.5 -5.5", "src": "#platform", "radius": "4.5", "rotation": "-90 0 0", "segments": "64"}))
+    $('a-circle').attr(({"opacity": "0.750", "color": "#ff00ff", "position": "", "src": "#platform", "radius": "4.5", "rotation": "-90 0 0", "segments": "64"}))
 
     console.log('scene re-built')
 }
@@ -438,8 +437,8 @@ function aFrameSceneBuilder() {
         //                 newsApiDayCounter.index[6].val()*0.1,
         //                 newsApiDayCounter.index[7].val()*0.1]
 
-        var position = [0,5, 0.7, 0.3, 0.6, 2.5, 3.2, 1.3];
-
+        var position = [0.5, 0.7, 0.3, 0.6, 2.5, 3.2, 1.3];
+        console.log(position[0]);
         
     $("#aFrameWorld").append("<a-entity id=newsApiContainer></a-entity>");
     $("#newsApiContainer").attr({"position":"0 0 -2.5"})
@@ -452,13 +451,13 @@ function aFrameSceneBuilder() {
                                     "<a-box id=newsDay6></a-box>");
 
     $("#newsDay0","#newsDay1","#newsDay2","#newsDay3","#newsDay4","#newsDay5","#newsDay6",).attr({"width":"0.5", "depth":"0.5","rotation":"0 0 0", "material":"", "geometry": ""})
-    $("#newsDay0").attr({"height": position.index[0].val(), "position":"-1.5 0 0", "color":"#ff0044"});
-    $("#newsDay1").attr({"height": position.index[0].val(), "position":"-1 0 0", "color":"#00ff00"});
-    $("#newsDay2").attr({"height": position.index[0].val(), "position":"-0.5 0 0", "color":"#ff0000"});
-    $("#newsDay3").attr({"height": position.index[0].val(), "position":"0 0 0", "color":"#0000ff"});
-    $("#newsDay4").attr({"height": position.index[0].val(), "position":"0.5 0 0", "color":"#00ff88"});
-    $("#newsDay5").attr({"height": position.index[0].val(), "position":"1 0 0", "color":"#FF0088"});
-    $("#newsDay6").attr({"height": position.index[0].val(), "position":"1.5 0 0", "color":"#0088FF"});
+    $("#newsDay0").attr({"width":"0.5", "depth":"0.5","rotation":"0 0 0", "material":"", "geometry": "", "height": position[0], "position":"-1.5 0 0", "color":"#ff0044"});
+    $("#newsDay1").attr({"width":"0.5", "depth":"0.5","rotation":"0 0 0", "material":"", "geometry": "", "height": position[1], "position":"-1 0 0", "color":"#00ff00"});
+    $("#newsDay2").attr({"width":"0.5", "depth":"0.5","rotation":"0 0 0", "material":"", "geometry": "", "height": position[2], "position":"-0.5 0 0", "color":"#ff0000"});
+    // $("#newsDay3").attr({"height": position.index[0], "position":"0 0 0", "color":"#0000ff"});
+    // $("#newsDay4").attr({"height": position.index[1], "position":"0.5 0 0", "color":"#00ff88"});
+    // $("#newsDay5").attr({"height": position.index[2], "position":"1 0 0", "color":"#FF0088"});
+    // $("#newsDay6").attr({"height": position.index[3], "position":"1.5 0 0", "color":"#0088FF"});
 
 
     };
