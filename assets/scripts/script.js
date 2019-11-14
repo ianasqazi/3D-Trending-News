@@ -1,22 +1,11 @@
-function aboutTheTeam(){
-    $(".main").hide();
-    $("#apiblock").hide();
-    $("#api1Threshold").hide();
-    $("#topLinks").hide();
-    $("#topLinks").hide();
-    $("#topLinks").hide();
-    $("#filter").hide();
-    $("#filtersubmit").hide();
-    $(".row").show();
-    $("#home").show();
-    $("#about").hide();
-    $(".card-body").show();
-    $(".card").show();
-    $("#teamMembers").show();
+// Declaring Global Variables 
+
+var guardianDayCounter=[0,0,0,0,0,0,0]; 
+var newsApiDayCounter=[0,0,0,0,0,0,0]; 
+var civicFeedDayCounter=[0,0,0,0,0,0,0]; 
 
 
-    
-};
+
 
 $(document).ready(function(){
 
@@ -25,14 +14,6 @@ $(document).ready(function(){
     $(".card").hide();
     $(".row").hide();
     $("#home").hide();
-//     $('#filter').keypress(function(event){
-//         var keycode = (event.keyCode ? event.keyCode : event.which);
-//         if(keycode == '13'|| keycode == '10'){
-//         event.preventDefault();
-//          // callAPI();
-//         callGuardian();
-//         }
-//       });
 
       
       $('#searchIcon').on( "mouseenter", function(){
@@ -68,29 +49,49 @@ $(document).ready(function(){
     $("#filtersubmit").click(function(){
         apiContainer();
         clearUI();
-        aFrameBox();
-        callGuardian();
+        // callGuardian();
         callNewsApi();
-        callCivicFeedApi();
-        aFrameBox();
-
+        // callCivicFeedApi();
     });
 });
 
-                                // ↓ centralizes all APIs in a single DIV, thus keeping the order of things -Rus
+function aboutTheTeam(){
+    $(".main").hide();
+    $("#apiblock").hide();
+    $("#api1Threshold").hide();
+    $("#topLinks").hide();
+    $("#topLinks").hide();
+    $("#topLinks").hide();
+    $("#filter").hide();
+    $("#filtersubmit").hide();
+    $(".row").show();
+    $("#home").show();
+    $("#about").hide();
+    $(".card-body").show();
+    $(".card").show();
+    $("#teamMembers").show();
+    
+};
+
+// ↓ centralizes all APIs in a single DIV, thus keeping the order of things -Rus
 function apiContainer() {
-    $('.main').append("<div id=apiContainer></div>");
+    $(".main").append("<div id=apiContainer></div>");
     $("#apiContainer").addClass("container-fluid");
+    $("#apiContainer").append("<br>");
+
+
+    $("#apiContainer").append("<button type=button id=aframeCreateBtn onclick=aFrameBox()>Graph</button>");
+    $("#aframeCreateBtn").addClass("btn btn-success");
+
 }
 
-                                // ↓ clears all data when making a new search. Please add new API blocks here.  -Rus
+// ↓ clears all data when making a new search. Please add new API blocks here.  -Rus
 function clearUI(){
     $("#comment").remove();
     $("#aFrameBox").remove();
     $("#guardianApiBlock").remove();
     $("#newsApiBlock").remove();
     $("#civicFeedBlock").remove();
-
 }
 
 // ↓ API calls
@@ -122,32 +123,24 @@ function callGuardian(){
                         $("#noOfArticles").text("Found "+ response.response.total + " number of articles");
                         
                         // Day Division sub-block
-                        var guardianDayCounter=[0,0,0,0,0,0,0]; // Today, Today-1, Today-3, ... Today-7
                             for(i=0;i<arrResults.length;i++){
-                                    // Today counter 
                                     if(moment(arrResults[i].webPublicationDate).format("YYYY-MM-DD")==moment().format("YYYY-MM-DD")){
                                         guardianDayCounter[0]+= 1;}
-                                    // Today -1 counter 
                                     else if (moment(arrResults[i].webPublicationDate).format("YYYY-MM-DD")==moment().subtract(1, "days").format("YYYY-MM-DD")){
                                         guardianDayCounter[1]+= 1;}
-                                    // Today -2 counter
                                     else if (moment(arrResults[i].webPublicationDate).format("YYYY-MM-DD")==moment().subtract(2, "days").format("YYYY-MM-DD")){
                                         guardianDayCounter[2]+= 1;}
-                                    // Today -3 counter 
                                     else if (moment(arrResults[i].webPublicationDate).format("YYYY-MM-DD")==moment().subtract(3, "days").format("YYYY-MM-DD")){
                                         guardianDayCounter[3]+= 1;}
-                                    // Today -4 counter 
                                     else if (moment(arrResults[i].webPublicationDate).format("YYYY-MM-DD")==moment().subtract(4, "days").format("YYYY-MM-DD")){
                                         guardianDayCounter[4]+= 1;}
-                                    // Today -5 counter 
                                     else if (moment(arrResults[i].webPublicationDate).format("YYYY-MM-DD")==moment().subtract(5, "days").format("YYYY-MM-DD")){
                                         guardianDayCounter[5]+= 1;}
-                                    // Today -6 counter 
                                     else {
                                         guardianDayCounter[6]+= 1;}
                             };
-                        // console.log("Guardian Day counter array is = " + guardianDayCounter);
-                        // Check if the array returns zero responses
+
+                            // Check if the array returns zero responses
                         checkDayCounter(guardianDayCounter);
 
 
@@ -188,7 +181,7 @@ function callGuardian(){
                     });
 
 }
-var newsApiDayCounter = [];
+
 function callNewsApi(){
 
     var query=$.trim($("#filter").val());
@@ -215,34 +208,26 @@ function callNewsApi(){
 
                 // Day Division sub-block
 
-                 newsApiDayCounter=[0,0,0,0,0,0,0]; // Today, Today-1, Today-3, ... Today-7
+                //  newsApiDayCounter=[0,0,0,0,0,0,0]; // Today, Today-1, Today-3, ... Today-7
                 for(i=0;i<response.articles.length;i++){
-                        // Today counter 
                         if(moment(response.articles[i].publishedAt).format("YYYY-MM-DD")==moment().format("YYYY-MM-DD")){
                             newsApiDayCounter[0]+= 1;}
-                        // Today -1 counter 
                         else if (moment(response.articles[i].publishedAt).format("YYYY-MM-DD")==moment().subtract(1, "days").format("YYYY-MM-DD")){
                             newsApiDayCounter[1]+= 1;}
-                        // Today -2 counter
                         else if (moment(response.articles[i].publishedAt).format("YYYY-MM-DD")==moment().subtract(2, "days").format("YYYY-MM-DD")){
                             newsApiDayCounter[2]+= 1;}
-                        // Today -3 counter 
                         else if (moment(response.articles[i].publishedAt).format("YYYY-MM-DD")==moment().subtract(3, "days").format("YYYY-MM-DD")){
                             newsApiDayCounter[3]+= 1;}
-                        // Today -4 counter 
                         else if (moment(response.articles[i].publishedAt).format("YYYY-MM-DD")==moment().subtract(4, "days").format("YYYY-MM-DD")){
                             newsApiDayCounter[4]+= 1;}
-                        // Today -5 counter 
                         else if (moment(response.articles[i].publishedAt).format("YYYY-MM-DD")==moment().subtract(5, "days").format("YYYY-MM-DD")){
                             newsApiDayCounter[5]+= 1;}
-                        // Today -6 counter 
                         else {
                             newsApiDayCounter[6]+= 1;}
-                };
-                // console.log("News API Day counter is : " + newsApiDayCounter);
+                };               
+
                 // Check if the array returns zero responses
                 checkDayCounter(newsApiDayCounter);
-
 
                 $("#newsApiBlock").append("<div class=col-3 id=newsApiDaysCounter><h5>News API Per Day Post Summary</h5></div>");
                         $("#newsApiDaysCounter").append("<hr>");
@@ -277,11 +262,10 @@ function callNewsApi(){
                     $("#newsApiURL4").attr("href",response.articles[3].url);
                     $("#newsApiTitle5").text(response.articles[4].title);
                     $("#newsApiURL5").attr("href",response.articles[4].url); 
+
         });
 
 }
-
-
 
 function callCivicFeedApi(){
 
@@ -298,7 +282,6 @@ function callCivicFeedApi(){
             "X-API-KEY": "mX8JVJCIBc9iJYmc3MLQOARBnSFR48x8fCYDkKz0",
         }
         }).then(function(response) {
-            // console.log(response); // getting response 
             $("#apiContainer").append("<div class=row id=civicFeedBlock></div>");
             $("#civicFeedBlock").addClass("container-fluid");
                             
@@ -313,31 +296,23 @@ function callCivicFeedApi(){
 
                 // Day Division sub-block
 
-                var civicFeedDayCounter=[0,0,0,0,0,0,0]; // Today, Today-1, Today-3, ... Today-7
                 for(i=0;i<response.articles.length;i++){
-                        // Today counter 
                         if(moment(response.articles[i].created).format("YYYY-MM-DD")==moment().format("YYYY-MM-DD")){
                             civicFeedDayCounter[0]+= 1;}
-                        // Today -1 counter 
                         else if (moment(response.articles[i].created).format("YYYY-MM-DD")==moment().subtract(1, "days").format("YYYY-MM-DD")){
                             civicFeedDayCounter[1]+= 1;}
-                        // Today -2 counter
                         else if (moment(response.articles[i].created).format("YYYY-MM-DD")==moment().subtract(2, "days").format("YYYY-MM-DD")){
                             civicFeedDayCounter[2]+= 1;}
-                        // Today -3 counter 
                         else if (moment(response.articles[i].created).format("YYYY-MM-DD")==moment().subtract(3, "days").format("YYYY-MM-DD")){
                             civicFeedDayCounter[3]+= 1;}
-                        // Today -4 counter 
                         else if (moment(response.articles[i].created).format("YYYY-MM-DD")==moment().subtract(4, "days").format("YYYY-MM-DD")){
                             civicFeedDayCounter[4]+= 1;}
-                        // Today -5 counter 
                         else if (moment(response.articles[i].created).format("YYYY-MM-DD")==moment().subtract(5, "days").format("YYYY-MM-DD")){
                             civicFeedDayCounter[5]+= 1;}
-                        // Today -6 counter 
                         else {
                             civicFeedDayCounter[6]+= 1;}
                 };
-                // console.log("Civic Feed API Day counter is : " + civicFeedDayCounter);
+
                 // Check if the array returns zero responses
                 checkDayCounter(civicFeedDayCounter);
 
@@ -380,6 +355,7 @@ function callCivicFeedApi(){
 
 }
 
+// ↓ Function to check if API returns zero
 function checkDayCounter(arr) {
     if(arr[0] == 0) {
         if(arr[1] == 0) {
@@ -391,12 +367,12 @@ function checkDayCounter(arr) {
              return swal("API Response is Null");}}}}}}}
  }
 
+
 function aFrameBox(){
     $(".main").prepend("<div id=aFrameBox></div>");
     $("#aFrameBox").addClass("container-fluid text-center");
     $("#aFrameBox").css({"height": "500px", "padding":"20px"});
     aFrameSceneBuilder();
-    console.log("this is outside news ")
     compileNews();
 
 }
@@ -404,6 +380,7 @@ function aFrameBox(){
 // ↓ base setup of aFrame environment
 
 function aFrameSceneBuilder() {
+
      $("#aFrameBox").append("<a-scene id=aFrameScene></<a-scene>");
      $("#aFrameScene").attr({"embedded": "", "vr-mode-ui": "enabled: false", "inspector": "true", "keyboard-shortcuts":"", "screenshot":""});
 
@@ -419,26 +396,15 @@ function aFrameSceneBuilder() {
     $("#aFrameWorld").append("<a-circle></a-circle>");
     $('a-circle').attr(({"opacity": "0.750", "color": "#ff00ff", "position": "", "src": "#platform", "radius": "4.5", "rotation": "-90 0 0", "segments": "64"}))
 
-    console.log('scene re-built')
 }
 
 // ↓ transforming API data into objects
 
-    function compileNews(){
+function compileNews(){
 
-        console.log("this is in the compiler " + newsApiDayCounter);
+        var position = [newsApiDayCounter[0]*0.1, newsApiDayCounter[1]*0.1, newsApiDayCounter[2]*0.1, newsApiDayCounter[3]*0.1, newsApiDayCounter[4]*0.1, newsApiDayCounter[5]*0.1, newsApiDayCounter[6]*0.1];
 
-        // var position = [newsApiDayCounter.index[0].val()*0.1,
-        //                 newsApiDayCounter.index[1].val()*0.1,
-        //                 newsApiDayCounter.index[2].val()*0.1,
-        //                 newsApiDayCounter.index[3].val()*0.1,
-        //                 newsApiDayCounter.index[4].val()*0.1,
-        //                 newsApiDayCounter.index[5].val()*0.1,
-        //                 newsApiDayCounter.index[6].val()*0.1,
-        //                 newsApiDayCounter.index[7].val()*0.1]
-
-        var position = [0.5, 0.7, 0.3, 0.6, 2.5, 3.2, 1.3];
-        console.log(position[0]);
+        // var position = [0.5, 0.7, 0.3, 0.6, 2.5, 3.2, 1.3];
         
     $("#aFrameWorld").append("<a-entity id=newsApiContainer></a-entity>");
     $("#newsApiContainer").attr({"position":"0 0 -2.5"})
@@ -454,16 +420,14 @@ function aFrameSceneBuilder() {
     $("#newsDay0").attr({"width":"0.5", "depth":"0.5","rotation":"0 0 0", "material":"", "geometry": "", "height": position[0], "position":"-1.5 0 0", "color":"#ff0044"});
     $("#newsDay1").attr({"width":"0.5", "depth":"0.5","rotation":"0 0 0", "material":"", "geometry": "", "height": position[1], "position":"-1 0 0", "color":"#00ff00"});
     $("#newsDay2").attr({"width":"0.5", "depth":"0.5","rotation":"0 0 0", "material":"", "geometry": "", "height": position[2], "position":"-0.5 0 0", "color":"#ff0000"});
-    // $("#newsDay3").attr({"height": position.index[0], "position":"0 0 0", "color":"#0000ff"});
-    // $("#newsDay4").attr({"height": position.index[1], "position":"0.5 0 0", "color":"#00ff88"});
-    // $("#newsDay5").attr({"height": position.index[2], "position":"1 0 0", "color":"#FF0088"});
-    // $("#newsDay6").attr({"height": position.index[3], "position":"1.5 0 0", "color":"#0088FF"});
+    $("#newsDay3").attr({"width":"0.5", "depth":"0.5","rotation":"0 0 0", "material":"", "geometry": "", "height": position[3], "position":"0 0 0", "color":"#0000ff"});
+    $("#newsDay4").attr({"width":"0.5", "depth":"0.5","rotation":"0 0 0", "material":"", "geometry": "", "height": position[4], "position":"0.5 0 0", "color":"#00ff88"});
+    $("#newsDay5").attr({"width":"0.5", "depth":"0.5","rotation":"0 0 0", "material":"", "geometry": "", "height": position[5], "position":"1 0 0", "color":"#FF0088"});
+    $("#newsDay6").attr({"width":"0.5", "depth":"0.5","rotation":"0 0 0", "material":"", "geometry": "", "height": position[6], "position":"1.5 0 0", "color":"#0088FF"});
 
 
-    };
+};
 
-    // console.log("guardian arr is " + guardianDayCounter);
-    // console.log("News  arr is " + newsApiDayCounter);
 
     
 
@@ -503,7 +467,5 @@ function aFrameSceneBuilder() {
 // cubes should have base hight
 // cubes should have API based color
 // add <a-text value="API NAME" geometry="primitive:plane"></a-text> +position attr next to cubes.
-
-
 
 
